@@ -8,7 +8,10 @@ public class GameController : MonoBehaviour
     public static GameController controller;
 
     public static int STARTING_WATER_LEVEL = 20;
-    public static int STARTING_POPULATION = 10;
+    public static int STARTING_POPULATION = 20;
+    public static int groundWidthFromCenter = 5;
+    public static int groundHeightFromCenter = 15;
+
     public GameObject messageWindow;
 
     public int Population { get; set; }
@@ -36,8 +39,10 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public bool doneCollectingWater = false;
     private bool gameOver = false;
-    private float timeForCollecingWater = 2f;//120f; //120 seconds for collecting the water mini game
+    public float timeForCollecingWater = 2f;//120f; //120 seconds for collecting the water mini game
 
+    [HideInInspector]
+    public Player player;
 
     //Mini game parameters
     void Awake()
@@ -57,6 +62,8 @@ public class GameController : MonoBehaviour
         Population = STARTING_POPULATION;
 
         StartCoroutine(StartGame());
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
@@ -69,14 +76,14 @@ public class GameController : MonoBehaviour
 
         while (!gameOver)
         {
-            yield return StartCoroutine(ShowMessage("Hello"));
+            yield return StartCoroutine(ShowMessage("Good Morning!"));
             yield return StartCoroutine(StartCollectingWater());
 
-            Debug.Log("Done day " + Day);
+            //Debug.Log("Done day " + Day);
 
             //Start the day cycle for the game
             //Day Loop: show day message and current stats, start game -> start timer, day is over when timer is up, show another message, overnight -> next day
-            yield return StartCoroutine(ShowMessage("Good night")); ;
+            yield return StartCoroutine(ShowMessage("Good night", "Next Day")); ;
             IncrementDay();
         }
         yield return null;
@@ -89,18 +96,19 @@ public class GameController : MonoBehaviour
         CurrentWaterLevel = -Population;
     }
 
-    public IEnumerator ShowMessage(string message)
+    public IEnumerator ShowMessage(string message, string message2 = "Start Day")
     {
         //show a message box on screen
         //nothing in the game happens until the message goes away
         //set the text elements on the message window
-        messageWindow.GetComponentInChildren<Text>().text = message;
+        messageWindow.GetComponentsInChildren<Text>()[0].text = message;
+        messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
         messageWindow.SetActive(true);
         shutOffMessage = false;
 
         while (!shutOffMessage)
         {
-            Debug.Log("Waiting to turn message off...");
+            //Debug.Log("Waiting to turn message off...");
             //wait for the player to hit the button
             yield return null;
         }
@@ -118,7 +126,7 @@ public class GameController : MonoBehaviour
         while (currentTime < timeForCollecingWater && !doneCollectingWater)
         {
             if (doneCollectingWater) delay = 0f;
-            Debug.Log("Collecting water...");
+            //Debug.Log("Collecting water...");
             currentTime += delay;
             yield return new WaitForSeconds(delay);
         }

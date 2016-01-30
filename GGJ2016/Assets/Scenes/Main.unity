@@ -114,6 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageWindow: {fileID: 1900703470}
   doneCollectingWater: 0
+  timeForCollecingWater: 2
+  player: {fileID: 0}
 --- !u!4 &280828232
 Transform:
   m_ObjectHideFlags: 0
@@ -136,10 +138,11 @@ GameObject:
   - 4: {fileID: 471461508}
   - 212: {fileID: 471461507}
   - 50: {fileID: 471461506}
+  - 114: {fileID: 471461509}
   - 114: {fileID: 471461505}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,11 +155,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 471461504}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 514e35751666e55439ca0eb7e947b483, type: 3}
+  m_Script: {fileID: 11500000, guid: b583f459c5256224bbca4675ff340df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  groundBounds: {x: 5, y: 5}
+  movement: {fileID: 0}
 --- !u!50 &471461506
 Rigidbody2D:
   serializedVersion: 2
@@ -217,6 +219,18 @@ Transform:
   - {fileID: 503309244}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &471461509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 471461504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514e35751666e55439ca0eb7e947b483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
 --- !u!1 &503309241
 GameObject:
   m_ObjectHideFlags: 0
