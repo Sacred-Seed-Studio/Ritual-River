@@ -13,7 +13,8 @@ public enum PedestalType
     T5,
     T6,
     T7,
-    T8
+    T8,
+    Empty
 }
 
 
@@ -141,6 +142,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator StartDay()
     {
+        RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
         yield return StartCoroutine(ShowMessage(pedestalsNeeded));
 
@@ -215,12 +217,32 @@ public class GameController : MonoBehaviour
 
     IEnumerator TouchedWrong()
     {
+        correctPedestalsTouched = 0;
         yield return new WaitForSeconds(0.5f);
         foreach (Pedestal p in pedestals)
         {
-            p.sr.color = p.inactiveColor;
+            //p.sr.color = p.inactiveColor;
+            p.DisActivate();
             yield return null;
         }
         yield return null;
+    }
+
+    public void RandomizePedestals()
+    {
+        List<PedestalType> typesUsed = new List<PedestalType>();
+
+        foreach (Pedestal p in pedestals)
+        {
+            while (p.pType == PedestalType.Empty)
+            {
+                PedestalType pt = (PedestalType)Random.Range(0, 8);
+                if (!typesUsed.Contains(pt))
+                {
+                    typesUsed.Add(pt);
+                    p.pType = pt;
+                }
+            }
+        }
     }
 }

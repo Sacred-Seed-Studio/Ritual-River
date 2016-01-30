@@ -13,10 +13,10 @@ public class Movement : MonoBehaviour
     public Animator anim;
 
     float topCameraBound = 1.69f;
-    float lowCameraBound = -22f;
+    float lowCameraBound = -46.6f;
 
     float topPlayerBound = 3.69f;
-    float lowPlayerBound = -24f;
+    float lowPlayerBound = -47f;
 
     void Awake()
     {
