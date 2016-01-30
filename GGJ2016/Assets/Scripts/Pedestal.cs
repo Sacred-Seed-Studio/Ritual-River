@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Pedestal : MonoBehaviour
 {
-    SpriteRenderer sr;
+   [HideInInspector] public SpriteRenderer sr;
 
     public Color activeColor = Color.black;
     public Color inactiveColor = Color.white;
@@ -29,7 +29,10 @@ public class Pedestal : MonoBehaviour
             GameController.controller.correctPedestalsTouched += 1;
         }
         else
+        {
             sr.color = angryColor;
+            GameController.controller.TouchedWrongPedestal();
+        }
     }
 
 

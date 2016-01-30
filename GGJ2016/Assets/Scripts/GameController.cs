@@ -60,10 +60,11 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public Player player;
 
-    public GameObject[] pedestals;
+    public Pedestal[] pedestals;
     string pedestalsNeeded;
 
-    [HideInInspector] public int correctPedestalsTouched;
+    [HideInInspector]
+    public int correctPedestalsTouched;
 
     //Mini game parameters
     void Awake()
@@ -122,7 +123,7 @@ public class GameController : MonoBehaviour
         //messageWindow.GetComponentsInChildren<Text>()[0].text = message;
         //messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
 
-        messageWindow.ShowMessage(message, "Day: "+Day.ToString(), "Population: "+Population.ToString(), "Total Water: "+TotalWaterLevel.ToString(), message2);
+        messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(), "Total Water: " + TotalWaterLevel.ToString(), message2);
         messageWindow.gameObject.SetActive(true);
         shutOffMessage = false;
 
@@ -206,4 +207,20 @@ public class GameController : MonoBehaviour
         return pedestalsNeeded.Contains(p.ToString());
     }
 
+    public void TouchedWrongPedestal()
+    {
+        //reset all pedestals
+        StartCoroutine(TouchedWrong());
+    }
+
+    IEnumerator TouchedWrong()
+    {
+        yield return new WaitForSeconds(0.5f);
+        foreach (Pedestal p in pedestals)
+        {
+            p.sr.color = p.inactiveColor;
+            yield return null;
+        }
+        yield return null;
+    }
 }

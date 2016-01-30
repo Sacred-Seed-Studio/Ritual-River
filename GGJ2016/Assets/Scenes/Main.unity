@@ -255,14 +255,14 @@ MonoBehaviour:
   openGate: 0
   player: {fileID: 0}
   pedestals:
-  - {fileID: 1938389343}
-  - {fileID: 772034254}
-  - {fileID: 888587518}
-  - {fileID: 1750084883}
-  - {fileID: 1921378979}
-  - {fileID: 1338684490}
-  - {fileID: 306824809}
-  - {fileID: 2147268198}
+  - {fileID: 1938389347}
+  - {fileID: 772034258}
+  - {fileID: 888587522}
+  - {fileID: 1750084887}
+  - {fileID: 1921378983}
+  - {fileID: 1338684494}
+  - {fileID: 306824813}
+  - {fileID: 2147268202}
   correctPedestalsTouched: 0
 --- !u!4 &280828232
 Transform:
@@ -759,6 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -938,6 +939,78 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22401440, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22401440, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22401440, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22401440, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22446484, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22446484, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22446484, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438532, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438532, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438532, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22401440, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22401440, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22446484, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22446484, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22446484, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438532, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438532, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22438532, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1369,6 +1442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -1531,6 +1605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -1641,6 +1716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -2035,6 +2111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -2354,6 +2431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -2458,6 +2536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
@@ -2724,6 +2803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b15667a393e45458c23021613b0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sr: {fileID: 0}
   activeColor: {r: 0, g: 0, b: 0, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
   angryColor: {r: 1, g: 0, b: 0, a: 1}
