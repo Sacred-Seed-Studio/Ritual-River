@@ -33,10 +33,13 @@ public class GameController : MonoBehaviour
     public int Day { get; set; }
 
     private bool shutOffMessage = false;
+    [HideInInspector]
     public bool doneCollectingWater = false;
     private bool gameOver = false;
     private float timeForCollecingWater = 2f;//120f; //120 seconds for collecting the water mini game
 
+
+    //Mini game parameters
     void Awake()
     {
         if (controller == null)
