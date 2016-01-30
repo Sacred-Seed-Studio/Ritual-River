@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public bool doneCollectingWater = false;
     private bool gameOver = false;
-    public float timeForCollecingWater = 2f;//120f; //120 seconds for collecting the water mini game
+    private float timeForCollecingWater = 120f; //120 seconds for collecting the water mini game
 
     public bool openGate = false;
 
@@ -66,6 +66,11 @@ public class GameController : MonoBehaviour
 
     [HideInInspector]
     public int correctPedestalsTouched;
+
+    public Text timeText;
+
+    public GameObject torchWaterPanel;
+    bool torchesVisible = true;
 
     //Mini game parameters
     void Awake()
@@ -94,6 +99,7 @@ public class GameController : MonoBehaviour
     {
         if (TotalWaterLevel < 0) gameOver = true;
         if (correctPedestalsTouched >= 3) openGate = true;
+        UpdateUITorches();
     }
 
     public IEnumerator StartGame()
@@ -148,14 +154,16 @@ public class GameController : MonoBehaviour
 
         yield return null;
     }
+
     public IEnumerator StartCollectingWater()
     {
         player.allowedToMove = true;
         float currentTime = 0;
-        float delay = 1f;
+        float delay = 1f; // so we can count down 2 minutes
 
         while (currentTime < timeForCollecingWater && !doneCollectingWater)
         {
+            timeText.text = (timeForCollecingWater - currentTime).ToString();
             if (doneCollectingWater) delay = 0f;
             //Debug.Log("Collecting water...");
             currentTime += delay;
@@ -243,6 +251,18 @@ public class GameController : MonoBehaviour
                     p.pType = pt;
                 }
             }
+        }
+    }
+
+    public void UpdateUITorches()
+    {
+        foreach (Pedestal_UI pU in torchWaterPanel.GetComponentsInChildren<Pedestal_UI>())
+        {
+            pU.TurnOff();
+        }
+        for (int i = 0; i < correctPedestalsTouched; i++)
+        {
+            torchWaterPanel.GetComponentsInChildren<Pedestal_UI>()[i].TurnOn();
         }
     }
 }
