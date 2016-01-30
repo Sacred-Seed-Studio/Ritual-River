@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -11,9 +12,18 @@ public class GameController : MonoBehaviour
     public GameObject messageWindow;
 
     public int Population { get; set; }
-    public int CurrentWaterLevel { get; set; } //total current water in your personal bucket
-    public int TotalWaterLevel { get; set; } //total water in your town bucket
-    public int CollectedWaterLevel { get; set; } //current collected water for the day
+
+    private int currentWaterLevel;
+    private int totalWaterLevel;
+    private int collectedWaterLevel;
+
+    public int CurrentWaterLevel//total current water in your personal bucket
+    { get { return currentWaterLevel; } set { currentWaterLevel += value; } }
+    public int TotalWaterLevel  //total water in your town bucket
+    { get { return totalWaterLevel; } set { totalWaterLevel += value; } }
+    public int CollectedWaterLevel  //current collected water for the day
+    { get { return collectedWaterLevel; } set { collectedWaterLevel += value; } }
+
     public int BucketSize { get; set; }
     public string BucketName { get; set; }
     public float Speed { get; set; }
@@ -23,9 +33,9 @@ public class GameController : MonoBehaviour
     public int Day { get; set; }
 
     private bool shutOffMessage = false;
-    public  bool doneCollectingWater = false;
+    public bool doneCollectingWater = false;
     private bool gameOver = false;
-    private float timeForCollecingWater = 120f; //120 seconds for collecting the water mini game
+    private float timeForCollecingWater = 2f;//120f; //120 seconds for collecting the water mini game
 
     void Awake()
     {
@@ -41,8 +51,14 @@ public class GameController : MonoBehaviour
 
         Day = 1;
         CurrentWaterLevel = STARTING_WATER_LEVEL;
+        Population = STARTING_POPULATION;
 
         StartCoroutine(StartGame());
+    }
+
+    void Update()
+    {
+        if (CurrentWaterLevel < 0) gameOver = true;
     }
 
     public IEnumerator StartGame()
@@ -53,19 +69,21 @@ public class GameController : MonoBehaviour
             yield return StartCoroutine(ShowMessage("Hello"));
             yield return StartCoroutine(StartCollectingWater());
 
-            //while (!doneCollectingWater)
-            //{
-            //    yield return null;
-            //}
-            doneCollectingWater = false;
             Debug.Log("Done day " + Day);
-            
+
             //Start the day cycle for the game
             //Day Loop: show day message and current stats, start game -> start timer, day is over when timer is up, show another message, overnight -> next day
-            yield return StartCoroutine(ShowMessage("Good night")); ;  
-            Day += 1;
+            yield return StartCoroutine(ShowMessage("Good night")); ;
+            IncrementDay();
         }
         yield return null;
+        SceneManager.LoadScene("GameOver");
+    }
+
+    void IncrementDay()
+    {
+        Day += 1;
+        CurrentWaterLevel = -Population;
     }
 
     public IEnumerator ShowMessage(string message)
