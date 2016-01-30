@@ -16,7 +16,6 @@ public class TypeWriter : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log("OnEnable");
         Debug.Assert(textBox != null && textToDisplay != null, "Something not initialized");
         StartCoroutine(TypeText());
     }
@@ -28,10 +27,8 @@ public class TypeWriter : MonoBehaviour
 
     IEnumerator TypeText()
     {
-        Debug.Log("Top of typetext");
         foreach (char letter in textToDisplay.ToCharArray())
         {
-            Debug.Log("Top of typetext loop");
             textBox.text += letter;
             yield return new WaitForSeconds(letterPause);
         }
