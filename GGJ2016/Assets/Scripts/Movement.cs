@@ -1,25 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour
 {
-    Vector3 cameraPosition;
-
     public float speed = 1f;
+
+    Vector3 cameraPosition;
     Rigidbody2D rb2d;
+    [HideInInspector]
+    public Animator anim;
+
+    float topCameraBound = 1.69f;
+    float lowCameraBound = -22f;
+
+    float topPlayerBound = 3.69f;
+    float lowPlayerBound = -24f;
 
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     public void Move(Vector2 input)
     {
-        Vector2 p = rb2d.position + input.normalized * speed * Time.deltaTime;
+        anim.SetFloat("x", input.x);
+        anim.SetFloat("y", input.y);
+        anim.SetBool("Idle", false);
 
+        Vector2 p = rb2d.position + input.normalized * speed * Time.deltaTime;
+        cameraPosition.Set(Camera.main.transform.position.x, Mathf.Clamp(p.y, lowCameraBound, topCameraBound), -10f);
+        p.y = Mathf.Clamp(p.y, lowPlayerBound, topPlayerBound);
         rb2d.MovePosition(p);
-        cameraPosition.Set(p.x, p.y, -10f);
         Camera.main.transform.position = cameraPosition;
     }
 }

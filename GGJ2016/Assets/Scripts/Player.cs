@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Movement movement;
 
+    [HideInInspector]
+    public bool allowedToMove;
+
     void Awake()
     {
         movement = GetComponent<Movement>();
@@ -20,6 +23,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Mathf.Abs(input.x) != 0 || Mathf.Abs(input.y) != 0) movement.Move(input);
+        if (allowedToMove && (Mathf.Abs(input.x) != 0 || Mathf.Abs(input.y) != 0)) movement.Move(input);
+        else movement.anim.SetBool("Idle", true);
     }
 }
