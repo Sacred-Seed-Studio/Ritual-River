@@ -1,7 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+
+public enum PedestalType
+{
+    T1,
+    T2,
+    T3,
+    T4,
+    T5,
+    T6,
+    T7,
+    T8
+}
+
 
 public class GameController : MonoBehaviour
 {
@@ -12,7 +26,7 @@ public class GameController : MonoBehaviour
     public static int groundWidthFromCenter = 5;
     public static int groundHeightFromCenter = 15;
 
-    public GameObject messageWindow;
+    public MessageWindow messageWindow;
 
     public int Population { get; set; }
 
@@ -41,8 +55,15 @@ public class GameController : MonoBehaviour
     private bool gameOver = false;
     public float timeForCollecingWater = 2f;//120f; //120 seconds for collecting the water mini game
 
+    public bool openGate = false;
+
     [HideInInspector]
     public Player player;
+
+    public GameObject[] pedestals;
+    string pedestalsNeeded;
+
+    [HideInInspector] public int correctPedestalsTouched;
 
     //Mini game parameters
     void Awake()
@@ -58,7 +79,8 @@ public class GameController : MonoBehaviour
         }
 
         Day = 1;
-        CurrentWaterLevel = STARTING_WATER_LEVEL;
+        CurrentWaterLevel = 2;
+        TotalWaterLevel = STARTING_WATER_LEVEL;
         Population = STARTING_POPULATION;
 
         StartCoroutine(StartGame());
@@ -68,22 +90,17 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (CurrentWaterLevel < 0) gameOver = true;
+        if (TotalWaterLevel < 0) gameOver = true;
+        if (correctPedestalsTouched >= 3) openGate = true;
     }
 
     public IEnumerator StartGame()
     {
-
         while (!gameOver)
         {
-            yield return StartCoroutine(ShowMessage("Good Morning!"));
+            yield return StartCoroutine(StartDay());
             yield return StartCoroutine(StartCollectingWater());
-
-            //Debug.Log("Done day " + Day);
-
-            //Start the day cycle for the game
-            //Day Loop: show day message and current stats, start game -> start timer, day is over when timer is up, show another message, overnight -> next day
-            yield return StartCoroutine(ShowMessage("Good night", "Next Day")); ;
+            yield return StartCoroutine(EndDay());
             IncrementDay();
         }
         yield return null;
@@ -93,7 +110,8 @@ public class GameController : MonoBehaviour
     void IncrementDay()
     {
         Day += 1;
-        CurrentWaterLevel = -Population;
+        TotalWaterLevel = -Population;
+        if (TotalWaterLevel < 0) gameOver = true;
     }
 
     public IEnumerator ShowMessage(string message, string message2 = "Start Day")
@@ -101,9 +119,11 @@ public class GameController : MonoBehaviour
         //show a message box on screen
         //nothing in the game happens until the message goes away
         //set the text elements on the message window
-        messageWindow.GetComponentsInChildren<Text>()[0].text = message;
-        messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
-        messageWindow.SetActive(true);
+        //messageWindow.GetComponentsInChildren<Text>()[0].text = message;
+        //messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
+
+        messageWindow.ShowMessage(message, "Day: "+Day.ToString(), "Population: "+Population.ToString(), "Total Water: "+TotalWaterLevel.ToString(), message2);
+        messageWindow.gameObject.SetActive(true);
         shutOffMessage = false;
 
         while (!shutOffMessage)
@@ -114,12 +134,20 @@ public class GameController : MonoBehaviour
         }
 
         shutOffMessage = false;
-        messageWindow.SetActive(false);
+        messageWindow.gameObject.SetActive(false);
         yield return null;
     }
 
+    public IEnumerator StartDay()
+    {
+        pedestalsNeeded = GetRandomPedestals();
+        yield return StartCoroutine(ShowMessage(pedestalsNeeded));
+
+        yield return null;
+    }
     public IEnumerator StartCollectingWater()
     {
+        player.allowedToMove = true;
         float currentTime = 0;
         float delay = 1f;
 
@@ -132,13 +160,50 @@ public class GameController : MonoBehaviour
         }
         //Generate a field to walk, Start the timer, let the player loose in the game field
         //Over when the timer is up
+        player.allowedToMove = false;
         yield return null;
     }
 
+    public IEnumerator EndDay()
+    {
+        TotalWaterLevel = CurrentWaterLevel;
+
+        yield return StartCoroutine(ShowMessage("Good night.", "Next Day")); ;
+
+        yield return null;
+    }
 
     public void ShutOffMessage()
     {
         shutOffMessage = true;
+    }
+
+    string GetRandomPedestals(int n = 3)
+    {
+        PedestalType p1 = PedestalType.T1, p2 = PedestalType.T1, p3 = PedestalType.T1;
+        List<PedestalType> types = new List<PedestalType>();
+        types.Add(PedestalType.T1);
+        types.Add(PedestalType.T2);
+        types.Add(PedestalType.T3);
+        types.Add(PedestalType.T4);
+        types.Add(PedestalType.T5);
+        types.Add(PedestalType.T6);
+        types.Add(PedestalType.T7);
+        types.Add(PedestalType.T8);
+
+        while ((p1 == p2) || (p2 == p3) || (p1 == p3))
+        {
+            p1 = (PedestalType)Random.Range(0, 8);
+            p2 = (PedestalType)Random.Range(0, 8);
+            p3 = (PedestalType)Random.Range(0, 8);
+        }
+
+        return p1.ToString() + " " + p2.ToString() + " " + p3.ToString();
+    }
+
+    public bool IsCorrectPedestal(PedestalType p)
+    {
+        return pedestalsNeeded.Contains(p.ToString());
     }
 
 }
