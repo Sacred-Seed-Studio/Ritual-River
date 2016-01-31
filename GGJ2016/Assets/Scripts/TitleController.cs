@@ -14,8 +14,10 @@ public class TitleController : MonoBehaviour
     [Header("Colors")]
     public Color white;
     public Color transparent;
+    [Header("SplashImages")]
+    public Image splashLogo;
+    public Image globalGameJamLogo;
 
-    Image splashLogo;
     CanvasGroup menuCanvasGroup;
 
     void ShowCanvases(bool splash, bool menu, bool help)
@@ -28,9 +30,11 @@ public class TitleController : MonoBehaviour
     void Start()
     {
         Debug.Assert(SplashCanvas != null && MenuCanvas != null && HelpCanvas != null, "Canvases not added");
+        Debug.Assert(splashLogo != null && globalGameJamLogo != null, "Logos not added");
         ShowCanvases(true, false, false);
-        splashLogo = SplashCanvas.GetComponentInChildren<Image>();
         splashLogo.color = transparent;
+        globalGameJamLogo.color = transparent;
+
         menuCanvasGroup = MenuCanvas.GetComponent<CanvasGroup>();
         menuCanvasGroup.alpha = 0.0f;
         StartCoroutine("Splash");
@@ -45,6 +49,7 @@ public class TitleController : MonoBehaviour
         float increment = 0.01f;
         float percentage = 0f;
 
+        #region Sacred Seed Logo
         // Go white
         while (splashLogo.color != white)
         {
@@ -65,7 +70,34 @@ public class TitleController : MonoBehaviour
             percentage += increment;
             yield return new WaitForSeconds(delay);
         }
+        #endregion
 
+        #region Global Game Jam Logo
+        increment = 0.01f;
+        percentage = 0f;
+        // Go white
+        while (globalGameJamLogo.color != white)
+        {
+            globalGameJamLogo.color = Color.Lerp(transparent, white, percentage);
+            percentage += increment;
+            yield return new WaitForSeconds(delay);
+        }
+
+        // Wait
+        yield return new WaitForSeconds(fullLogoTime);
+
+        // Go transparent
+        percentage = 0f;
+        increment = 0.02f;
+        while (globalGameJamLogo.color != transparent)
+        {
+            globalGameJamLogo.color = Color.Lerp(white, transparent, percentage);
+            percentage += increment;
+            yield return new WaitForSeconds(delay);
+        }
+        #endregion
+
+        #region Menu
         // Open Menu
         ShowCanvases(false, true, false);
 
@@ -77,7 +109,7 @@ public class TitleController : MonoBehaviour
             menuCanvasGroup.alpha = Mathf.Lerp(0.0f, 1.0f, percentage);
             percentage += increment;
             yield return new WaitForSeconds(delay);
-        }
-
+        } 
+        #endregion
     }
 }
