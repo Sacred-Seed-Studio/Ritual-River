@@ -66,8 +66,8 @@ public class GameController : MonoBehaviour
     private bool shutOffMessage = false;
     [HideInInspector]
     public bool doneCollectingWater = false;
-    private bool gameOver = false;
-    private float timeForCollecingWater = 120f; //120 seconds for collecting the water mini game
+    public bool gameOver = false;
+    private float timeForCollecingWater = 60f; //120 seconds for collecting the water mini game
 
     public bool openGate = false;
     public bool loseWater;

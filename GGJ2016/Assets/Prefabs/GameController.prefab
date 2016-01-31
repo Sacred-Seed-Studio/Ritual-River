@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &161582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 414268}
+  - 114: {fileID: 11457582}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &414268
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161582}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11457582
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22f514ceb589854ead2edb44a4ba12a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageWindow: {fileID: 0}
+  doneCollectingWater: 0
+  openGate: 0
+  loseWater: 0
+  player: {fileID: 0}
+  gate: {fileID: 0}
+  pedestals:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  pedestalSymbols:
+  - {fileID: 21300000, guid: a7029f7b086fd65499429ad6d1ec5760, type: 3}
+  - {fileID: 21300002, guid: a7029f7b086fd65499429ad6d1ec5760, type: 3}
+  - {fileID: 21300004, guid: a7029f7b086fd65499429ad6d1ec5760, type: 3}
+  - {fileID: 21300006, guid: a7029f7b086fd65499429ad6d1ec5760, type: 3}
+  pedestalColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.6827586, b: 0, a: 1}
+  - {r: 0.90841794, g: 1, b: 0.051470578, a: 1}
+  - {r: 0, g: 0.77205884, b: 0.22895537, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 0.28676468, g: 0.55730224, b: 1, a: 1}
+  - {r: 0.7890465, g: 0.04411763, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.35172415, a: 1}
+  correctPedestalsTouched: 0
+  timeText: {fileID: 0}
+  dayText: {fileID: 0}
+  torchWaterPanel: {fileID: 0}
+  torchesVisible: 1
+  spawnLocations:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  monkeyCount: 3
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 161582}
+  m_IsPrefabParent: 1

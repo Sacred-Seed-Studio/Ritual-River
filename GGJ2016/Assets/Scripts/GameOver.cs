@@ -7,7 +7,7 @@ public class GameOver : MonoBehaviour
 {
     public Text day, waterCollected, waterLost, pedestalsPleased, pedestalsAngered;
 
-    void Awake()
+    void Start()
     {
         day.text = "days in village: " + GameController.controller.Day;
         waterCollected.text = "water collected: " + GameController.controller.GrandTotalWaterCollected;

@@ -320,7 +320,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Water Lost: 50'
+  m_Text: 'Water Lost: 500'
 --- !u!222 &238639642
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -587,7 +587,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Gods Angered: 15'
+  m_Text: 'Gods Angered: 150'
 --- !u!222 &614963585
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -704,7 +704,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Gods Delighted: 8'
+  m_Text: 'Gods Delighted: 80'
 --- !u!222 &1241822673
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1089,7 +1089,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Day: 3'
+  m_Text: 'Day: 33'
 --- !u!222 &1669580982
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1106,7 +1106,6 @@ GameObject:
   - 224: {fileID: 1900703471}
   - 222: {fileID: 1900703473}
   - 114: {fileID: 1900703472}
-  - 114: {fileID: 1900703474}
   m_Layer: 5
   m_Name: MessagePanel
   m_TagString: Untagged
@@ -1167,22 +1166,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1900703470}
---- !u!114 &1900703474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1900703470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01af3493a0325b48985d5c0fdbca868, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  day: {fileID: 0}
-  waterCollected: {fileID: 0}
-  waterLost: {fileID: 0}
-  pedestalsPleased: {fileID: 0}
-  pedestalsAngered: {fileID: 0}
 --- !u!1 &1918765552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1468,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Water collected: 100'
+  m_Text: 'Water collected: 300'
 --- !u!222 &2079838941
 CanvasRenderer:
   m_ObjectHideFlags: 0
