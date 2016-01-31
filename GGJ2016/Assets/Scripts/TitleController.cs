@@ -40,9 +40,9 @@ public class TitleController : MonoBehaviour
         StartCoroutine("Splash");
     }
 
-    public void GetHelp() { Debug.Log("Help!");  ShowCanvases(false, false, true); }
+    public void GetHelp() { ShowCanvases(false, false, true); }
 
-    public void LeaveHelp() { Debug.Log(" BYE Help!"); ShowCanvases(false, true, false); }
+    public void LeaveHelp() { ShowCanvases(false, true, false); }
 
     IEnumerator Splash()
     {
