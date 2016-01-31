@@ -243,6 +243,7 @@ public class GameController : MonoBehaviour
         torchesVisible = true;
         doneCollectingWater = false;
         monkeyCount++;
+        if (monkeyCount >= monkeys.Count) monkeyCount = monkeys.Count - 1;
         //obstacleCount++;
         if (monkeyCount > 11) monkeyCount = 11;
         gate.ResetGates();
@@ -350,7 +351,7 @@ public class GameController : MonoBehaviour
         currentWaterLevel = 0;
         Debug.Log("End day end");
 
-        yield return StartCoroutine(ShowMessage("Good night.", "Next Day")); ;
+        yield return StartCoroutine(ShowMessage("Good night", "Next Day")); ;
 
         yield return null;
     }
