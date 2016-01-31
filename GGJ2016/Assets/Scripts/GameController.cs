@@ -135,7 +135,7 @@ public class GameController : MonoBehaviour
         gate = GameObject.FindGameObjectWithTag("Gate").GetComponent<Gate>();
 
         monkeys = new List<Enemy>();
-        obstacles = new List<Obstacle>();
+        //obstacles = new List<Obstacle>();
 
         GameObject monkeyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
         for (int i = 0; i < spawnLocations.Length; i++)
@@ -146,15 +146,15 @@ public class GameController : MonoBehaviour
             //monkeys[i].transform.SetParent(transform);
         }
 
-        obstacleSprites = Resources.LoadAll<Sprite>("Sprites/Obstacles");
+        //obstacleSprites = Resources.LoadAll<Sprite>("Sprites/Obstacles");
 
-        GameObject obstaclePrefab = Resources.Load<GameObject>("Prefabs/Obstacle");
-        for (int i = 0; i < obstacleSpawnLocations.Length; i++)
-        {
-            obstacles.Add((Instantiate(obstaclePrefab, obstacleSpawnLocations[i].position, Quaternion.identity) as GameObject).GetComponent<Obstacle>());
-            obstacles[i].gameObject.SetActive(false);
-            obstacles[i].gameObject.name = "Obstacle" + i;
-        }
+        //GameObject obstaclePrefab = Resources.Load<GameObject>("Prefabs/Obstacle");
+        //for (int i = 0; i < obstacleSpawnLocations.Length; i++)
+        //{
+        //    obstacles.Add((Instantiate(obstaclePrefab, obstacleSpawnLocations[i].position, Quaternion.identity) as GameObject).GetComponent<Obstacle>());
+        //    obstacles[i].gameObject.SetActive(false);
+        //    obstacles[i].gameObject.name = "Obstacle" + i;
+        //}
 
         SpawnMonkeys();
     }
@@ -176,28 +176,28 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void SpawnObstacles()
-    {
-        foreach (Obstacle o in obstacles)
-        {
-            o.gameObject.SetActive(false);
-        }
+    //void SpawnObstacles()
+    //{
+    //    foreach (Obstacle o in obstacles)
+    //    {
+    //        o.gameObject.SetActive(false);
+    //    }
 
-        if (usedObstacleSpawnLocations == null) usedObstacleSpawnLocations = new List<int>();
-        for (int i = 0; i < obstacleCount; i++)
-        {
-            int spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
-            while (usedObstacleSpawnLocations.Contains(spawnLocationIndex))
-            {
-                spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
-            }
-            usedObstacleSpawnLocations.Add(spawnLocationIndex);
-            obstacleSpawnLocations[spawnLocationIndex].position = new Vector2(Random.Range(lowObstacleBound, highObstacleBound), obstacleSpawnLocations[spawnLocationIndex].position.y);
-            obstacles[spawnLocationIndex].gameObject.SetActive(true);
-            obstacles[spawnLocationIndex].Randomize(obstacleSprites[Random.Range(0, obstacleSprites.Length)]);
-            obstacles[spawnLocationIndex].transform.position = obstacleSpawnLocations[spawnLocationIndex].position;
-        }
-    }
+    //    if (usedObstacleSpawnLocations == null) usedObstacleSpawnLocations = new List<int>();
+    //    for (int i = 0; i < obstacleCount; i++)
+    //    {
+    //        int spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
+    //        while (usedObstacleSpawnLocations.Contains(spawnLocationIndex))
+    //        {
+    //            spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
+    //        }
+    //        usedObstacleSpawnLocations.Add(spawnLocationIndex);
+    //        obstacleSpawnLocations[spawnLocationIndex].position = new Vector2(Random.Range(lowObstacleBound, highObstacleBound), obstacleSpawnLocations[spawnLocationIndex].position.y);
+    //        obstacles[spawnLocationIndex].gameObject.SetActive(true);
+    //        obstacles[spawnLocationIndex].Randomize(obstacleSprites[Random.Range(0, obstacleSprites.Length)]);
+    //        obstacles[spawnLocationIndex].transform.position = obstacleSpawnLocations[spawnLocationIndex].position;
+    //    }
+    //}
 
     void Start()
     {
@@ -243,7 +243,7 @@ public class GameController : MonoBehaviour
         torchesVisible = true;
         doneCollectingWater = false;
         monkeyCount++;
-        obstacleCount++;
+        //obstacleCount++;
         if (monkeyCount > 11) monkeyCount = 11;
         gate.ResetGates();
 
@@ -309,7 +309,7 @@ public class GameController : MonoBehaviour
         waterSlider.maxValue = BucketSize;
 
         SpawnMonkeys();
-        SpawnObstacles();
+        //SpawnObstacles();
 
         SetMonkeysToMode(EnemyState.Chillin);
         RandomizePedestals();
@@ -342,7 +342,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator EndDay()
     {
-        //MusicController.controller.PlaySong(MusicType.Title);
+        MusicController.controller.PlaySong(MusicType.Title);
         Debug.Log("End day start");
         TotalWaterLevel = CurrentWaterLevel;
         GrandTotalWaterCollected = CurrentWaterLevel;
