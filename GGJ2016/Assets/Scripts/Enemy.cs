@@ -9,6 +9,12 @@ public enum Personality
     Random
 }
 
+public enum EnemyState
+{
+    Chillin,
+    Killin
+}
+
 [RequireComponent(typeof(EnemyMovement))]
 public class Enemy : MonoBehaviour
 {
@@ -21,6 +27,8 @@ public class Enemy : MonoBehaviour
     public int leftBound, rightBound;
 
     public Personality personality;
+    public EnemyState state;
+
     float lazySpeed = 0.5f,
           speedySpeed = 2f,
           consistentSpeed = 1f,
@@ -53,7 +61,27 @@ public class Enemy : MonoBehaviour
             direction *= -1;
         }
 
-        // Set movement vector
+        switch (state)
+        {
+            case EnemyState.Chillin:
+                // Idle animation
+                break;
+            case EnemyState.Killin:
+                SetMovementVector();
+                break;
+            default:
+                Debug.Log("Unknown enemy state! ARG!");
+                break;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (Mathf.Abs(movementVector.x) != 0 || Mathf.Abs(movementVector.y) != 0) movement.Move(movementVector);
+    }
+
+    void SetMovementVector()
+    {
         switch (personality)
         {
             case Personality.Lazy:
@@ -78,10 +106,5 @@ public class Enemy : MonoBehaviour
                 movementVector = new Vector3(0, 0, 0);
                 break;
         }
-    }
-
-    void FixedUpdate()
-    {
-        if (Mathf.Abs(movementVector.x) != 0 || Mathf.Abs(movementVector.y) != 0) movement.Move(movementVector);
     }
 }

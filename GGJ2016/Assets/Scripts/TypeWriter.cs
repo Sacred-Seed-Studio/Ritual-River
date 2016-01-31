@@ -9,13 +9,9 @@ public class TypeWriter : MonoBehaviour
     //public AudioClip letterSound;
     public Text textBox;
 
-    void Start()
-    {
-        textBox.text = "";
-    }
-
     void OnEnable()
     {
+        textBox.text = "";
         Debug.Assert(textBox != null && textToDisplay != null, "Something not initialized");
         StartCoroutine(TypeText());
     }
