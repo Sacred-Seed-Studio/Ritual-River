@@ -1986,7 +1986,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22424900, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMin.x
@@ -1998,7 +1998,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11438846, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_Sprite
@@ -2665,14 +2665,14 @@ EdgeCollider2D:
   - {x: 5.7201653, y: 25.439384}
   - {x: 5.7572527, y: 24.33107}
   - {x: 4.7327785, y: 22.477617}
-  - {x: 4.6992025, y: 23.327875}
-  - {x: 2.6830204, y: 23.308718}
-  - {x: 2.7011006, y: 24.04742}
+  - {x: 4.7705564, y: 22.899754}
+  - {x: 2.6354523, y: 22.90438}
+  - {x: 2.4632554, y: 23.619299}
   - {x: 0.41279173, y: 24.059624}
-  - {x: -0.9131497, y: 24.527205}
-  - {x: -2.9493852, y: 24.502527}
-  - {x: -3.0576067, y: 23.459267}
-  - {x: -4.904322, y: 23.372087}
+  - {x: -0.9131497, y: 23.980162}
+  - {x: -2.71154, y: 23.907915}
+  - {x: -3.0338225, y: 22.88844}
+  - {x: -4.904322, y: 22.777475}
   - {x: -4.794079, y: -20.732082}
   - {x: -8.184423, y: -20.626007}
   - {x: -8.216869, y: -30.649097}
