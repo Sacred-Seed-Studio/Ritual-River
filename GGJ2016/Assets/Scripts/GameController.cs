@@ -74,7 +74,9 @@ public class GameController : MonoBehaviour
     public Player player;
 
     public Pedestal[] pedestals;
-    string pedestalsNeeded;
+    PedestalType[] pedestalsNeeded;
+    public Sprite[] pedestalSymbols;
+    public Color[] pedestalColors;
 
     [HideInInspector]
     public int correctPedestalsTouched;
@@ -109,9 +111,13 @@ public class GameController : MonoBehaviour
         waterSlider = torchWaterPanel.GetComponentInChildren<Slider>();
         waterSlider.gameObject.SetActive(false);
         torchPanel = torchWaterPanel.GetComponentInChildren<HorizontalLayoutGroup>().gameObject;
-        StartCoroutine(StartGame());
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
+
+    void Start()
+    {
+        StartCoroutine(StartGame());
     }
 
     void Update()
@@ -181,6 +187,33 @@ public class GameController : MonoBehaviour
         yield return null;
     }
 
+    public IEnumerator ShowMessage(PedestalType[] symbols, string message2 = "Start Day")
+    {
+        waitingForInput = true;
+
+        //show a message box on screen
+        //nothing in the game happens until the message goes away
+        //set the text elements on the message window
+        //messageWindow.GetComponentsInChildren<Text>()[0].text = message;
+        //messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
+
+        messageWindow.ShowMessage(symbols, "Day: " + Day.ToString(), "Population: " + Population.ToString(), "Total Water: " + TotalWaterLevel.ToString(), message2);
+        messageWindow.gameObject.SetActive(true);
+        shutOffMessage = false;
+
+        while (!shutOffMessage)
+        {
+            //Debug.Log("Waiting to turn message off...");
+            //wait for the player to hit the button
+            yield return null;
+        }
+
+        shutOffMessage = false;
+        messageWindow.gameObject.SetActive(false);
+        waitingForInput = false;
+        yield return null;
+    }
+
     public IEnumerator StartDay()
     {
         dayText.text = "Day " + Day;
@@ -226,7 +259,7 @@ public class GameController : MonoBehaviour
         shutOffMessage = true;
     }
 
-    string GetRandomPedestals(int n = 3)
+    PedestalType[] GetRandomPedestals(int n = 3)
     {
         PedestalType p1 = PedestalType.T1, p2 = PedestalType.T1, p3 = PedestalType.T1;
         List<PedestalType> types = new List<PedestalType>();
@@ -246,12 +279,20 @@ public class GameController : MonoBehaviour
             p3 = (PedestalType)Random.Range(0, 8);
         }
 
-        return p1.ToString() + " " + p2.ToString() + " " + p3.ToString();
+        PedestalType[] p = new PedestalType[3];
+        p[0] = p1;
+        p[1] = p2;
+        p[2] = p3;
+        return p;
     }
 
     public bool IsCorrectPedestal(PedestalType p)
     {
-        return pedestalsNeeded.Contains(p.ToString());
+        for (int i = 0; i < pedestalsNeeded.Length; i++)
+        {
+            if (pedestalsNeeded[i] == p) return true;
+        }
+        return false;
     }
 
     public void TouchedWrongPedestal()
@@ -285,7 +326,8 @@ public class GameController : MonoBehaviour
                 if (!typesUsed.Contains(pt))
                 {
                     typesUsed.Add(pt);
-                    p.pType = pt;
+                    p.ChangeType(pt, GetPedestalSprite(pt), GetPedestalColor(pt));
+                    //p.pType = pt;
                 }
             }
         }
@@ -322,4 +364,39 @@ public class GameController : MonoBehaviour
         if (currentWaterLevel < 0) currentWaterLevel = 0;
         Debug.Log(currentWaterLevel + " ...");
     }
+
+
+    public Sprite GetPedestalSprite(PedestalType p)
+    {
+        switch (p)
+        {
+            default:
+            case PedestalType.T5:
+            case PedestalType.T1: return pedestalSymbols[0]; 
+            case PedestalType.T6:
+            case PedestalType.T2: return pedestalSymbols[1];
+            case PedestalType.T7:
+            case PedestalType.T3: return pedestalSymbols[2];
+            case PedestalType.T8:
+            case PedestalType.T4: return pedestalSymbols[3];
+        }
+    }
+
+    public Color GetPedestalColor(PedestalType p)
+    {
+        switch (p)
+        {
+            default:
+            case PedestalType.T1: return pedestalColors[0];
+            case PedestalType.T2: return pedestalColors[1];
+            case PedestalType.T3: return pedestalColors[2];
+            case PedestalType.T4: return pedestalColors[3];
+            case PedestalType.T5: return pedestalColors[4];
+            case PedestalType.T6: return pedestalColors[5];
+            case PedestalType.T7: return pedestalColors[6];
+            case PedestalType.T8: return pedestalColors[7];
+        }
+    }
+    
 }
+

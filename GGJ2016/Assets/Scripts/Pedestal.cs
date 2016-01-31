@@ -6,16 +6,20 @@ public class Pedestal : MonoBehaviour
     [HideInInspector]
     public SpriteRenderer sr;
 
+    public SpriteRenderer symbolSR;
+
     public Color activeColor = Color.black;
     public Color inactiveColor = Color.white;
     public Color angryColor = Color.red;
     public PedestalType pType = PedestalType.T1;
 
+    
     Animator anim;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        symbolSR = GetComponentsInChildren<SpriteRenderer>()[1];
         anim = GetComponent<Animator>();
     }
 
@@ -55,5 +59,13 @@ public class Pedestal : MonoBehaviour
     public void Reset()
     {
         DisActivate();
+    }
+
+    public void ChangeType(PedestalType p, Sprite s, Color c)
+    {
+        Debug.Log("Changing type");
+        pType = p;
+        symbolSR.sprite = s;
+        symbolSR.color = c;
     }
 }
