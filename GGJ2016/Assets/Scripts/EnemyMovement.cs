@@ -19,10 +19,6 @@ public class EnemyMovement : MonoBehaviour
 
     public void Move(Vector2 input)
     {
-        anim.SetFloat("x", input.x);
-        anim.SetFloat("y", input.y);
-        anim.SetBool("Idle", false);
-
         Vector2 p = rb2d.position + input.normalized * speed * Time.deltaTime;
         rb2d.MovePosition(p);
     }

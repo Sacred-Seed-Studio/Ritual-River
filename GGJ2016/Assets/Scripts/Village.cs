@@ -6,6 +6,7 @@ public class Village : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.tag != "Player") return;
         if (GameController.controller.torchesVisible) return;
 
         Debug.Log("Back to the village!");

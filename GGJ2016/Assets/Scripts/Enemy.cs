@@ -112,4 +112,11 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag != "Player") return;
+
+        GameController.controller.LoseWater();
+    }
 }

@@ -93,6 +93,9 @@ public class GameController : MonoBehaviour
     public bool torchesVisible = true;
 
     bool waitingForInput = false;
+
+    Enemy[] monkeys;
+
     //Mini game parameters
     void Awake()
     {
@@ -117,6 +120,14 @@ public class GameController : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         gate = GameObject.FindGameObjectWithTag("Gate").GetComponent<Gate>();
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Monkey");
+        monkeys = new Enemy[enemies.Length];
+        int i = 0;
+        foreach (GameObject g in enemies)
+        {
+            monkeys[i] = g.GetComponent<Enemy>();
+            i++;
+        }
     }
 
     void Start()
@@ -198,20 +209,12 @@ public class GameController : MonoBehaviour
     public IEnumerator ShowMessage(PedestalType[] symbols, string message2 = "Start Day")
     {
         waitingForInput = true;
-
-        //show a message box on screen
-        //nothing in the game happens until the message goes away
-        //set the text elements on the message window
-        //messageWindow.GetComponentsInChildren<Text>()[0].text = message;
-        //messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
-
         messageWindow.ShowMessage(symbols, "Day: " + Day.ToString(), "Population: " + Population.ToString(), "Total Water: " + TotalWaterLevel.ToString(), message2);
         messageWindow.gameObject.SetActive(true);
         shutOffMessage = false;
 
         while (!shutOffMessage)
         {
-            //Debug.Log("Waiting to turn message off...");
             //wait for the player to hit the button
             yield return null;
         }
@@ -226,6 +229,8 @@ public class GameController : MonoBehaviour
     {
         dayText.text = "Day " + Day;
         waterSlider.maxValue = BucketSize;
+
+        SetMonkeysToMode(EnemyState.Chillin);
         RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
         yield return StartCoroutine(ShowMessage(pedestalsNeeded));
@@ -368,6 +373,7 @@ public class GameController : MonoBehaviour
     public void LoseWater(float percentage = 0.25f)
     {
         StartCoroutine(LoseWaterLevel(percentage));
+        StartCoroutine(Knockback());
     }
 
     IEnumerator LoseWaterLevel(float percentage = 0.25f)
@@ -390,13 +396,32 @@ public class GameController : MonoBehaviour
         yield return null;
     }
 
+    IEnumerator Knockback()
+    {
+        StartCoroutine(player.Stunned(2f));
+        float direction = -Mathf.Sign(player.movement.anim.GetFloat("y"));
+        Vector2 delta = player.movement.rb2d.position + (direction > 0 ? Vector2.up*player.knockback : Vector2.down*player.knockback);
+        player.movement.rb2d.position = delta;
+        float t = 0;
+
+        player.tag = "PlayerStunned";
+        while (t < player.stunTime)
+        {
+            t += 1f;
+            yield return new WaitForSeconds(2f);
+        }
+        player.tag = "Player";
+
+        yield return null;
+    }
+
     public Sprite GetPedestalSprite(PedestalType p)
     {
         switch (p)
         {
             default:
             case PedestalType.T5:
-            case PedestalType.T1: return pedestalSymbols[0]; 
+            case PedestalType.T1: return pedestalSymbols[0];
             case PedestalType.T6:
             case PedestalType.T2: return pedestalSymbols[1];
             case PedestalType.T7:
@@ -421,6 +446,19 @@ public class GameController : MonoBehaviour
             case PedestalType.T8: return pedestalColors[7];
         }
     }
-    
+
+    public void SetMonkeysToMode(EnemyState state = EnemyState.Chillin)
+    {
+        foreach (Enemy e in monkeys)
+        {
+            SetMonkeyToMode(e, state);
+        }
+    }
+
+    public void SetMonkeyToMode(Enemy e, EnemyState state = EnemyState.Chillin)
+    {
+        e.state = state;
+    }
+
 }
 

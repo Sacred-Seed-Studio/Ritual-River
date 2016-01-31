@@ -8,7 +8,8 @@ public class Movement : MonoBehaviour
     public float speed = 1f;
 
     Vector3 cameraPosition;
-    Rigidbody2D rb2d;
+    [HideInInspector]
+    public Rigidbody2D rb2d;
     [HideInInspector]
     public Animator anim;
 

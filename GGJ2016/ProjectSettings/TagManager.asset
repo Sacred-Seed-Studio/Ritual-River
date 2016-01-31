@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Gate
+  - Monkey
+  - PlayerStunned
   layers:
   - Default
   - TransparentFX
