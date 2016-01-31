@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -20,6 +21,9 @@ public class TitleController : MonoBehaviour
     Color white;
     Color transparent;
     CanvasGroup menuCanvasGroup;
+
+    bool showingSplash;
+    bool breakOutEarly;
 
     void ShowCanvases(bool splash, bool menu, bool help)
     {
@@ -46,18 +50,30 @@ public class TitleController : MonoBehaviour
         StartCoroutine("Splash");
     }
 
+    void Update()
+    {
+        if (Input.GetButtonDown("Submit"))
+        {
+            if (!showingSplash) SceneManager.LoadScene("Story");
+            else
+            {
+                breakOutEarly = true;
+            }
+        }
+    }
     public void GetHelp() { ShowCanvases(false, false, true); }
 
     public void LeaveHelp() { ShowCanvases(false, true, false); }
 
     IEnumerator Splash()
     {
+        showingSplash = true;
         float increment = 0.01f;
         float percentage = 0f;
 
         #region Sacred Seed Logo
         // Go white
-        while (splashLogo.color != white)
+        while (splashLogo.color != white && !breakOutEarly)
         {
             splashLogo.color = Color.Lerp(transparent, white, percentage);
             percentage += increment;
@@ -70,7 +86,7 @@ public class TitleController : MonoBehaviour
         // Go transparent
         percentage = 0f;
         increment = 0.02f;
-        while (splashLogo.color != transparent)
+        while (splashLogo.color != transparent && !breakOutEarly)
         {
             splashLogo.color = Color.Lerp(white, transparent, percentage);
             percentage += increment;
@@ -82,7 +98,7 @@ public class TitleController : MonoBehaviour
         increment = 0.01f;
         percentage = 0f;
         // Go white
-        while (globalGameJamLogo.color != white)
+        while (globalGameJamLogo.color != white && !breakOutEarly)
         {
             globalGameJamLogo.color = Color.Lerp(transparent, white, percentage);
             percentage += increment;
@@ -95,12 +111,14 @@ public class TitleController : MonoBehaviour
         // Go transparent
         percentage = 0f;
         increment = 0.02f;
-        while (globalGameJamLogo.color != transparent)
+        while (globalGameJamLogo.color != transparent && !breakOutEarly)
         {
             globalGameJamLogo.color = Color.Lerp(white, transparent, percentage);
             percentage += increment;
             yield return new WaitForSeconds(delay);
         }
+
+        showingSplash = false;
         #endregion
 
         #region Menu
