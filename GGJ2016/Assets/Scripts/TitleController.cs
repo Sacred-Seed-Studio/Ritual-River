@@ -8,22 +8,24 @@ public class TitleController : MonoBehaviour
     public GameObject SplashCanvas;
     public GameObject MenuCanvas;
     public GameObject HelpCanvas;
+    [Header("Background")]
+    public GameObject menuBackground;
     [Header("Splash Variables")]
     public float delay;
     public float fullLogoTime;
-    [Header("Colors")]
-    public Color white;
-    public Color transparent;
     [Header("SplashImages")]
     public Image splashLogo;
     public Image globalGameJamLogo;
 
+    Color white;
+    Color transparent;
     CanvasGroup menuCanvasGroup;
 
     void ShowCanvases(bool splash, bool menu, bool help)
     {
         SplashCanvas.SetActive(splash);
         MenuCanvas.SetActive(menu);
+        menuBackground.SetActive(menu || help);
         HelpCanvas.SetActive(help);
     }
 
@@ -31,6 +33,10 @@ public class TitleController : MonoBehaviour
     {
         Debug.Assert(SplashCanvas != null && MenuCanvas != null && HelpCanvas != null, "Canvases not added");
         Debug.Assert(splashLogo != null && globalGameJamLogo != null, "Logos not added");
+        Debug.Assert(menuBackground != null, "Background not added");
+        white = Color.white;
+        transparent = white;
+        transparent.a = 0f;
         ShowCanvases(true, false, false);
         splashLogo.color = transparent;
         globalGameJamLogo.color = transparent;
