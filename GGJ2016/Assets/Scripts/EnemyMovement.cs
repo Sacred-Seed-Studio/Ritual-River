@@ -9,12 +9,10 @@ public class EnemyMovement : MonoBehaviour
 
     Rigidbody2D rb2d;
     [HideInInspector]
-    public Animator anim;
 
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
     }
 
     public void Move(Vector2 input)

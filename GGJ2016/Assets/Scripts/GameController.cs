@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     public static GameController controller;
 
     public static int STARTING_WATER_LEVEL = 20;
-    public static int STARTING_POPULATION = 100;
+    public static int STARTING_POPULATION = 10;
     public static int groundWidthFromCenter = 5;
     public static int groundHeightFromCenter = 15;
 
@@ -99,7 +99,7 @@ public class GameController : MonoBehaviour
     List<Enemy> monkeys;
     public Transform[] spawnLocations;
 
-    public int monkeyCount = 3;
+    public int monkeyCount = 6;
     List<int> usedSpawnLocations;
 
 
@@ -155,8 +155,10 @@ public class GameController : MonoBehaviour
             }
             usedSpawnLocations.Add(spawnLocationIndex);
             monkeys[spawnLocationIndex].gameObject.SetActive(true);
+            monkeys[spawnLocationIndex].Randomize();
         }
     }
+
     void Start()
     {
         StartCoroutine(StartGame());
@@ -494,6 +496,13 @@ public class GameController : MonoBehaviour
         e.state = state;
     }
 
+    public void SpeedUpMonkeys()
+    {
+        foreach (Enemy e in monkeys)
+        {
+            e.SpeedUp();
+        }
+    }
 
 }
 

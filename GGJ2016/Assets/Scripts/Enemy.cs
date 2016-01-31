@@ -36,18 +36,21 @@ public class Enemy : MonoBehaviour
           consistentSpeed = 1f,
           randomSpeed = 1f;
 
+    public float baseSpeed = 1f;
+
     void Awake()
     {
         anim = GetComponent<Animator>();
         movement = GetComponent<EnemyMovement>();
-        switch (personality)
-        {
-            case Personality.Lazy: movement.speed = lazySpeed; break;
-            case Personality.Speedy: movement.speed = speedySpeed; break;
-            case Personality.Consistent: movement.speed = consistentSpeed; break;
-            case Personality.Random: movement.speed = randomSpeed; break;
-            default: Debug.Log("Unknown personality"); break;
-        }
+        Randomize();
+        //switch (personality)
+        //{
+        //    case Personality.Lazy: movement.speed = lazySpeed*baseSpeed; break;
+        //    case Personality.Speedy: movement.speed = speedySpeed*baseSpeed; break;
+        //    case Personality.Consistent: movement.speed = consistentSpeed*baseSpeed; break;
+        //    case Personality.Random: movement.speed = randomSpeed*baseSpeed; break;
+        //    default: Debug.Log("Unknown personality"); break;
+        //}
     }
 
     void Update()
@@ -83,6 +86,24 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         if (Mathf.Abs(movementVector.x) != 0 || Mathf.Abs(movementVector.y) != 0) movement.Move(movementVector);
+    }
+
+    public void Randomize()
+    {
+        personality = (Personality)Random.Range(0, 4);
+        switch (personality)
+        {
+            case Personality.Lazy: movement.speed = lazySpeed * baseSpeed; break;
+            case Personality.Speedy: movement.speed = speedySpeed * baseSpeed; break;
+            case Personality.Consistent: movement.speed = consistentSpeed * baseSpeed; break;
+            case Personality.Random: movement.speed = randomSpeed * baseSpeed; break;
+            default: Debug.Log("Unknown personality"); break;
+        }
+    }
+
+    public void SpeedUp()
+    {
+        baseSpeed *= 1.25f;
     }
 
     void SetMovementVector()

@@ -14,13 +14,15 @@ GameObject:
   - 114: {fileID: 11450024}
   - 114: {fileID: 11425824}
   - 58: {fileID: 5878082}
+  - 114: {fileID: 11432964}
+  - 58: {fileID: 5853526}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Monkey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &460002
 Transform:
   m_ObjectHideFlags: 1
@@ -50,6 +52,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &5853526
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149328}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0.58}
+  serializedVersion: 2
+  m_Radius: 0.38
 --- !u!58 &5878082
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -61,9 +77,9 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.35}
   serializedVersion: 2
-  m_Radius: 0.59
+  m_Radius: 0.56
 --- !u!95 &9512112
 Animator:
   serializedVersion: 3
@@ -97,6 +113,18 @@ MonoBehaviour:
   rightBound: 5
   personality: 1
   state: 0
+  baseSpeed: 1
+--- !u!114 &11432964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 746109828f813214b8dda95415c22dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11450024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,7 +137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  anim: {fileID: 0}
 --- !u!212 &21213096
 SpriteRenderer:
   m_ObjectHideFlags: 1
