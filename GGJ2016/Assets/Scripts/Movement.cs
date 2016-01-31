@@ -12,7 +12,7 @@ public class Movement : MonoBehaviour
     [HideInInspector]
     public Animator anim;
 
-    float topCameraBound = 1.69f;
+    float topCameraBound = -1.79f;
     float lowCameraBound = -46.6f;
 
     float topPlayerBound = 3.69f;

@@ -87,6 +87,7 @@ public class GameController : MonoBehaviour
 
     public bool torchesVisible = true;
 
+    bool waitingForInput = false;
     //Mini game parameters
     void Awake()
     {
@@ -124,6 +125,11 @@ public class GameController : MonoBehaviour
             loseWater = false;
             LoseWater();
         }
+
+        if (waitingForInput && Input.GetButtonDown("Submit"))
+        {
+            shutOffMessage = true;
+        }
     }
 
     public IEnumerator StartGame()
@@ -142,12 +148,16 @@ public class GameController : MonoBehaviour
     void IncrementDay()
     {
         Day += 1;
+        torchesVisible = true;
+        
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
     }
 
     public IEnumerator ShowMessage(string message, string message2 = "Start Day")
     {
+        waitingForInput = true;
+
         //show a message box on screen
         //nothing in the game happens until the message goes away
         //set the text elements on the message window
@@ -167,6 +177,7 @@ public class GameController : MonoBehaviour
 
         shutOffMessage = false;
         messageWindow.gameObject.SetActive(false);
+        waitingForInput = false;
         yield return null;
     }
 
