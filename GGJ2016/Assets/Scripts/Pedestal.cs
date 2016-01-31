@@ -13,7 +13,8 @@ public class Pedestal : MonoBehaviour
     public Color angryColor = Color.red;
     public PedestalType pType = PedestalType.T1;
 
-    
+    public bool isOn;
+
     Animator anim;
 
     void Awake()
@@ -32,6 +33,8 @@ public class Pedestal : MonoBehaviour
 
     public void Activate()
     {
+        if (isOn) return;
+        isOn = true;
         if (GameController.controller.IsCorrectPedestal(pType))
         {
             //sr.color = activeColor;
@@ -46,11 +49,9 @@ public class Pedestal : MonoBehaviour
         }
     }
 
-
-
-
     public void DisActivate()
     {
+        isOn = false;
         sr.color = inactiveColor;
         anim.SetBool("Off", true);
     }
