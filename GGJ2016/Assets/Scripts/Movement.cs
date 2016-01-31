@@ -32,6 +32,11 @@ public class Movement : MonoBehaviour
         anim.SetBool("Idle", false);
 
         Vector2 p = rb2d.position + input.normalized * speed * Time.deltaTime;
+        MoveTo(p);
+    }
+
+    public void MoveTo(Vector2 p)
+    {
         cameraPosition.Set(Camera.main.transform.position.x, Mathf.Clamp(p.y, lowCameraBound, topCameraBound), -10f);
         p.y = Mathf.Clamp(p.y, lowPlayerBound, topPlayerBound);
         rb2d.MovePosition(p);

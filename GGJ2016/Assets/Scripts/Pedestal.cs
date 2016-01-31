@@ -39,11 +39,13 @@ public class Pedestal : MonoBehaviour
         if (GameController.controller.IsCorrectPedestal(pType))
         {
             //sr.color = activeColor;
+            GameController.controller.GrandTotalGodsPleased += 1;
             GameController.controller.correctPedestalsTouched += 1;
             anim.SetBool("Off", false);
         }
         else
         {
+            GameController.controller.GrandTotalGodsAngered += 1;
             sr.color = angryColor;
             GameController.controller.TouchedWrongPedestal();
             anim.SetBool("Off", true);

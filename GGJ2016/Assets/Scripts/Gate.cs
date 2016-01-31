@@ -52,5 +52,6 @@ public class Gate : MonoBehaviour
     {
         leftGate.transform.position = leftPosition;
         rightGate.transform.position = rightPosition;
+        opened = false;
     }
 }

@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     public static GameController controller;
 
     public static int STARTING_WATER_LEVEL = 20;
-    public static int STARTING_POPULATION = 20;
+    public static int STARTING_POPULATION = 100;
     public static int groundWidthFromCenter = 5;
     public static int groundHeightFromCenter = 15;
 
@@ -59,6 +59,8 @@ public class GameController : MonoBehaviour
     public float AverageSpeed { get; set; }
     public float GrandTotalWaterCollected { get; set; }
     public float GrandTotalWaterLost { get; set; }
+    public float GrandTotalGodsPleased { get; set; }
+    public float GrandTotalGodsAngered { get; set; }
     public int Day { get; set; }
 
     private bool shutOffMessage = false;
@@ -81,7 +83,7 @@ public class GameController : MonoBehaviour
     public Sprite[] pedestalSymbols;
     public Color[] pedestalColors;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int correctPedestalsTouched;
 
     public Text timeText, dayText;
@@ -94,7 +96,12 @@ public class GameController : MonoBehaviour
 
     bool waitingForInput = false;
 
-    Enemy[] monkeys;
+    List<Enemy> monkeys;
+    public Transform[] spawnLocations;
+
+    public int monkeyCount = 3;
+    List<int> usedSpawnLocations;
+
 
     //Mini game parameters
     void Awake()
@@ -102,7 +109,7 @@ public class GameController : MonoBehaviour
         if (controller == null)
         {
             controller = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else if (controller != this)
         {
@@ -120,16 +127,36 @@ public class GameController : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         gate = GameObject.FindGameObjectWithTag("Gate").GetComponent<Gate>();
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Monkey");
-        monkeys = new Enemy[enemies.Length];
-        int i = 0;
-        foreach (GameObject g in enemies)
+
+        monkeys = new List<Enemy>();
+        GameObject monkeyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
+        for (int i = 0; i < spawnLocations.Length; i++)
         {
-            monkeys[i] = g.GetComponent<Enemy>();
-            i++;
+            monkeys.Add((Instantiate(monkeyPrefab, spawnLocations[i].position, Quaternion.identity) as GameObject).GetComponent<Enemy>());
+            monkeys[i].gameObject.SetActive(false);
+            monkeys[i].gameObject.name = "Monkey" + i;
+            //monkeys[i].transform.SetParent(transform);
         }
+
+        SpawnMonkeys();
+
     }
 
+    void SpawnMonkeys()
+    {
+        if (usedSpawnLocations == null) usedSpawnLocations = new List<int>();
+
+        for (int i = usedSpawnLocations.Count; i < monkeyCount; i++)
+        {
+            int spawnLocationIndex = Random.Range(0, spawnLocations.Length);
+            while (usedSpawnLocations.Contains(spawnLocationIndex))
+            {
+                spawnLocationIndex = Random.Range(0, spawnLocations.Length);
+            }
+            usedSpawnLocations.Add(spawnLocationIndex);
+            monkeys[spawnLocationIndex].gameObject.SetActive(true);
+        }
+    }
     void Start()
     {
         StartCoroutine(StartGame());
@@ -169,11 +196,15 @@ public class GameController : MonoBehaviour
     void IncrementDay()
     {
         Day += 1;
+        Population += 1;
         torchesVisible = true;
         doneCollectingWater = false;
-
+        monkeyCount++;
+        if (monkeyCount > 11) monkeyCount = 11;
         gate.ResetGates();
 
+        correctPedestalsTouched = 0;
+        openGate = false;
         TouchedWrongPedestal();
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
@@ -182,14 +213,8 @@ public class GameController : MonoBehaviour
     public IEnumerator ShowMessage(string message, string message2 = "Start Day")
     {
         waitingForInput = true;
-
-        //show a message box on screen
-        //nothing in the game happens until the message goes away
-        //set the text elements on the message window
-        //messageWindow.GetComponentsInChildren<Text>()[0].text = message;
-        //messageWindow.GetComponentsInChildren<Text>()[1].text = message2;
-
-        messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(), "Total Water: " + TotalWaterLevel.ToString(), message2);
+        messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(),
+            "New Total Water: " + TotalWaterLevel.ToString(), message2);
         messageWindow.gameObject.SetActive(true);
         shutOffMessage = false;
 
@@ -230,6 +255,7 @@ public class GameController : MonoBehaviour
         dayText.text = "Day " + Day;
         waterSlider.maxValue = BucketSize;
 
+        SpawnMonkeys();
         SetMonkeysToMode(EnemyState.Chillin);
         RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
@@ -261,6 +287,8 @@ public class GameController : MonoBehaviour
     public IEnumerator EndDay()
     {
         TotalWaterLevel = CurrentWaterLevel;
+        GrandTotalWaterCollected = CurrentWaterLevel;
+        Debug.Log("Grand total water collected: " + GrandTotalWaterCollected);
         currentWaterLevel = 0;
 
         yield return StartCoroutine(ShowMessage("Good night.", "Next Day")); ;
@@ -393,17 +421,22 @@ public class GameController : MonoBehaviour
             count++;
             yield return new WaitForSeconds(0.05f);
         }
+        GameController.controller.GrandTotalWaterLost += count;
         yield return null;
     }
 
     IEnumerator Knockback()
     {
+        player.allowedToMove = false;
         StartCoroutine(player.Stunned(2f));
         float direction = -Mathf.Sign(player.movement.anim.GetFloat("y"));
-        Vector2 delta = player.movement.rb2d.position + (direction > 0 ? Vector2.up*player.knockback : Vector2.down*player.knockback);
-        player.movement.rb2d.position = delta;
+        Vector2 delta = player.movement.rb2d.position + (direction > 0 ? Vector2.up * player.knockback : Vector2.down * player.knockback);
+        player.movement.MoveTo(delta);
+        //player.movement.rb2d.position = delta;
         float t = 0;
 
+        yield return new WaitForSeconds(0.75f);
+        player.allowedToMove = true;
         player.tag = "PlayerStunned";
         while (t < player.stunTime)
         {
@@ -449,6 +482,7 @@ public class GameController : MonoBehaviour
 
     public void SetMonkeysToMode(EnemyState state = EnemyState.Chillin)
     {
+        //TODO: send monkeys back to sides of path?
         foreach (Enemy e in monkeys)
         {
             SetMonkeyToMode(e, state);
@@ -459,6 +493,7 @@ public class GameController : MonoBehaviour
     {
         e.state = state;
     }
+
 
 }
 
