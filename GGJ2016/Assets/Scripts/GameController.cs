@@ -98,11 +98,17 @@ public class GameController : MonoBehaviour
 
     List<Enemy> monkeys;
     public Transform[] spawnLocations;
+    public Transform[] obstacleSpawnLocations;
 
-    public int monkeyCount = 6;
-    List<int> usedSpawnLocations;
+    public int monkeyCount = 6, obstacleCount = 6;
+    List<int> usedSpawnLocations, usedObstacleSpawnLocations;
 
+    List<Obstacle> obstacles;
+    public Sprite[] obstacleSprites;
+    public float lowObstacleBound = -4.5f;
+    public float highObstacleBound = 4.5f;
 
+    //obstacleSprites[Random.Range(0, obstacleSprites.Length)]
     //Mini game parameters
     void Awake()
     {
@@ -129,6 +135,8 @@ public class GameController : MonoBehaviour
         gate = GameObject.FindGameObjectWithTag("Gate").GetComponent<Gate>();
 
         monkeys = new List<Enemy>();
+        obstacles = new List<Obstacle>();
+
         GameObject monkeyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
         for (int i = 0; i < spawnLocations.Length; i++)
         {
@@ -138,8 +146,17 @@ public class GameController : MonoBehaviour
             //monkeys[i].transform.SetParent(transform);
         }
 
-        SpawnMonkeys();
+        obstacleSprites = Resources.LoadAll<Sprite>("Sprites/Obstacles");
 
+        GameObject obstaclePrefab = Resources.Load<GameObject>("Prefabs/Obstacle");
+        for (int i = 0; i < obstacleSpawnLocations.Length; i++)
+        {
+            obstacles.Add((Instantiate(obstaclePrefab, obstacleSpawnLocations[i].position, Quaternion.identity) as GameObject).GetComponent<Obstacle>());
+            obstacles[i].gameObject.SetActive(false);
+            obstacles[i].gameObject.name = "Obstacle" + i;
+        }
+
+        SpawnMonkeys();
     }
 
     void SpawnMonkeys()
@@ -156,6 +173,29 @@ public class GameController : MonoBehaviour
             usedSpawnLocations.Add(spawnLocationIndex);
             monkeys[spawnLocationIndex].gameObject.SetActive(true);
             monkeys[spawnLocationIndex].Randomize();
+        }
+    }
+
+    void SpawnObstacles()
+    {
+        foreach (Obstacle o in obstacles)
+        {
+            o.gameObject.SetActive(false);
+        }
+
+        if (usedObstacleSpawnLocations == null) usedObstacleSpawnLocations = new List<int>();
+        for (int i = 0; i < obstacleCount; i++)
+        {
+            int spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
+            while (usedObstacleSpawnLocations.Contains(spawnLocationIndex))
+            {
+                spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
+            }
+            usedObstacleSpawnLocations.Add(spawnLocationIndex);
+            obstacleSpawnLocations[spawnLocationIndex].position = new Vector2(Random.Range(lowObstacleBound, highObstacleBound), obstacleSpawnLocations[spawnLocationIndex].position.y);
+            obstacles[spawnLocationIndex].gameObject.SetActive(true);
+            obstacles[spawnLocationIndex].Randomize(obstacleSprites[Random.Range(0, obstacleSprites.Length)]);
+            obstacles[spawnLocationIndex].transform.position = obstacleSpawnLocations[spawnLocationIndex].position;
         }
     }
 
@@ -202,6 +242,7 @@ public class GameController : MonoBehaviour
         torchesVisible = true;
         doneCollectingWater = false;
         monkeyCount++;
+        obstacleCount++;
         if (monkeyCount > 11) monkeyCount = 11;
         gate.ResetGates();
 
@@ -258,6 +299,8 @@ public class GameController : MonoBehaviour
         waterSlider.maxValue = BucketSize;
 
         SpawnMonkeys();
+        SpawnObstacles();
+
         SetMonkeysToMode(EnemyState.Chillin);
         RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
