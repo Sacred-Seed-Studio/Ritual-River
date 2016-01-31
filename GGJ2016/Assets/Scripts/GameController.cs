@@ -237,6 +237,7 @@ public class GameController : MonoBehaviour
 
     void IncrementDay()
     {
+        Debug.Log("Increment Day start");
         Day += 1;
         Population += 1;
         torchesVisible = true;
@@ -251,13 +252,14 @@ public class GameController : MonoBehaviour
         TouchedWrongPedestal();
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
+        Debug.Log("Increment Day end");
 
 
     }
 
     public IEnumerator ShowMessage(string message, string message2 = "Start Day")
     {
-
+        Debug.Log("ShowMessage Start");
         waitingForInput = true;
         messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(),
             "New Total Water: " + TotalWaterLevel.ToString(), message2);
@@ -274,6 +276,8 @@ public class GameController : MonoBehaviour
         shutOffMessage = false;
         messageWindow.gameObject.SetActive(false);
         waitingForInput = false;
+        Debug.Log("ShowMessage end");
+
         yield return null;
     }
 
@@ -298,6 +302,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator StartDay()
     {
+        Debug.Log("Start Day start");
         MusicController.controller.PlaySong(MusicType.WayDown);
 
         dayText.text = "Day " + Day;
@@ -309,6 +314,7 @@ public class GameController : MonoBehaviour
         SetMonkeysToMode(EnemyState.Chillin);
         RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
+        Debug.Log("Start Day end");
         yield return StartCoroutine(ShowMessage(pedestalsNeeded));
 
         yield return null;
@@ -337,11 +343,12 @@ public class GameController : MonoBehaviour
     public IEnumerator EndDay()
     {
         //MusicController.controller.PlaySong(MusicType.Title);
-
+        Debug.Log("End day start");
         TotalWaterLevel = CurrentWaterLevel;
         GrandTotalWaterCollected = CurrentWaterLevel;
         Debug.Log("Grand total water collected: " + GrandTotalWaterCollected);
         currentWaterLevel = 0;
+        Debug.Log("End day end");
 
         yield return StartCoroutine(ShowMessage("Good night.", "Next Day")); ;
 
