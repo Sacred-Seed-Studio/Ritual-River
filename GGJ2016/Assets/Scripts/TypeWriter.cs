@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class TypeWriter : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class TypeWriter : MonoBehaviour
 
     void OnEnable()
     {
+        textToDisplay = textBox.text;
         textBox.text = "";
         Debug.Assert(textBox != null && textToDisplay != null, "Something not initialized");
         StartCoroutine(TypeText());
@@ -23,10 +25,15 @@ public class TypeWriter : MonoBehaviour
 
     IEnumerator TypeText()
     {
-        foreach (char letter in textToDisplay.ToCharArray())
+        string[] lines = textToDisplay.Split(Environment.NewLine.ToCharArray());
+        foreach (string line in lines)
         {
-            textBox.text += letter;
-            yield return new WaitForSeconds(letterPause);
+            foreach (char letter in line.ToCharArray())
+            {
+                textBox.text += letter;
+                yield return new WaitForSeconds(letterPause);
+            }
+            textBox.text += Environment.NewLine;
         }
     }
 }
