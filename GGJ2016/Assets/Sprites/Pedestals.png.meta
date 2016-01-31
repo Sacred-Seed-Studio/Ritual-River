@@ -1,12 +1,12 @@
 fileFormatVersion: 2
 guid: 843c4db6d8a468d4a9937ea4cc376e6e
-timeCreated: 1454194422
+timeCreated: 1454217267
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Pedestal_Off
     21300002: Pedestal_On1
-    21300004: Peedestal_On2
+    21300004: Pedestal_On2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -75,7 +75,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: Peedestal_On2
+    - name: Pedestal_On2
       rect:
         serializedVersion: 2
         x: 32

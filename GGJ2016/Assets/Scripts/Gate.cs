@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Gate : MonoBehaviour
 {
-
     public GameObject leftGate, rightGate;
 
     float totalTimeToTake = 2f;
@@ -13,6 +12,14 @@ public class Gate : MonoBehaviour
 
     bool opened = false;
 
+    Vector2 leftPosition, rightPosition;
+
+    void Awake()
+    {
+        leftPosition = leftGate.transform.position;
+        rightPosition = rightGate.transform.position;
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
         if (!opened && GameController.controller.openGate)
@@ -21,7 +28,6 @@ public class Gate : MonoBehaviour
             StartCoroutine(OpenGates());
         }
     }
-
 
     IEnumerator OpenGates()
     {
@@ -40,5 +46,11 @@ public class Gate : MonoBehaviour
         }
 
         yield return null; 
+    }
+
+    public void ResetGates()
+    {
+        leftGate.transform.position = leftPosition;
+        rightGate.transform.position = rightPosition;
     }
 }

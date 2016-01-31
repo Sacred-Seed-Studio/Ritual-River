@@ -73,6 +73,9 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public Player player;
 
+    [HideInInspector]
+    public Gate gate;
+
     public Pedestal[] pedestals;
     PedestalType[] pedestalsNeeded;
     public Sprite[] pedestalSymbols;
@@ -113,6 +116,7 @@ public class GameController : MonoBehaviour
         torchPanel = torchWaterPanel.GetComponentInChildren<HorizontalLayoutGroup>().gameObject;
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        gate = GameObject.FindGameObjectWithTag("Gate").GetComponent<Gate>();
     }
 
     void Start()
@@ -156,6 +160,8 @@ public class GameController : MonoBehaviour
         Day += 1;
         torchesVisible = true;
         doneCollectingWater = false;
+
+        gate.ResetGates();
 
         TouchedWrongPedestal();
         TotalWaterLevel = -Population;
@@ -361,12 +367,28 @@ public class GameController : MonoBehaviour
 
     public void LoseWater(float percentage = 0.25f)
     {
-        Debug.Log(currentWaterLevel);
-        currentWaterLevel -= (int)Mathf.Ceil(bucketSize * percentage);
-        if (currentWaterLevel < 0) currentWaterLevel = 0;
-        Debug.Log(currentWaterLevel + " ...");
+        StartCoroutine(LoseWaterLevel(percentage));
     }
 
+    IEnumerator LoseWaterLevel(float percentage = 0.25f)
+    {
+        int count = 0;
+
+        while (count < (int)Mathf.Ceil(bucketSize * percentage))
+        {
+            Debug.Log(currentWaterLevel);
+            currentWaterLevel -= 1;
+            Debug.Log(currentWaterLevel);
+            if (currentWaterLevel < 0)
+            {
+                currentWaterLevel = 0;
+                break;
+            }
+            count++;
+            yield return new WaitForSeconds(0.05f);
+        }
+        yield return null;
+    }
 
     public Sprite GetPedestalSprite(PedestalType p)
     {
