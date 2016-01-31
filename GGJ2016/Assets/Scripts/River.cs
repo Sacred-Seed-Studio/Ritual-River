@@ -7,6 +7,7 @@ public class River : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag != "Player" && other.tag != "PlayerStunned") return;
+        MusicController.controller.PlaySong(MusicType.WayUp);
         GameController.controller.torchesVisible = false;
         Debug.Log("Touching river ");
         //GameController.controller.CurrentWaterLevel = GameController.controller.BucketSize;

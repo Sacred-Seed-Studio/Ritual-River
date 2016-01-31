@@ -251,10 +251,13 @@ public class GameController : MonoBehaviour
         TouchedWrongPedestal();
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
+
+
     }
 
     public IEnumerator ShowMessage(string message, string message2 = "Start Day")
     {
+
         waitingForInput = true;
         messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(),
             "New Total Water: " + TotalWaterLevel.ToString(), message2);
@@ -295,6 +298,8 @@ public class GameController : MonoBehaviour
 
     public IEnumerator StartDay()
     {
+        MusicController.controller.PlaySong(MusicType.WayDown);
+
         dayText.text = "Day " + Day;
         waterSlider.maxValue = BucketSize;
 
@@ -331,6 +336,8 @@ public class GameController : MonoBehaviour
 
     public IEnumerator EndDay()
     {
+        MusicController.controller.PlaySong(MusicType.Title);
+
         TotalWaterLevel = CurrentWaterLevel;
         GrandTotalWaterCollected = CurrentWaterLevel;
         Debug.Log("Grand total water collected: " + GrandTotalWaterCollected);
