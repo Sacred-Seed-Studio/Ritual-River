@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     public Personality personality;
     public EnemyState state;
 
+    Animator anim;
+
     float lazySpeed = 0.5f,
           speedySpeed = 2f,
           consistentSpeed = 1f,
@@ -36,6 +38,7 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
+        anim = GetComponent<Animator>();
         movement = GetComponent<EnemyMovement>();
         switch (personality)
         {
@@ -64,9 +67,11 @@ public class Enemy : MonoBehaviour
         switch (state)
         {
             case EnemyState.Chillin:
-                // Idle animation
+                anim.SetBool("Walk", false);
+                movementVector = Vector3.zero;
                 break;
             case EnemyState.Killin:
+                anim.SetBool("Walk", true);
                 SetMovementVector();
                 break;
             default:
@@ -103,7 +108,7 @@ public class Enemy : MonoBehaviour
                 break;
             default:
                 Debug.Log("Unknown personality, freak out!");
-                movementVector = new Vector3(0, 0, 0);
+                movementVector = Vector3.zero;
                 break;
         }
     }
