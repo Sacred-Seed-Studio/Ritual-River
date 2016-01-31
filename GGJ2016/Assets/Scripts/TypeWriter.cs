@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 public class TypeWriter : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class TypeWriter : MonoBehaviour
     public float letterPause;
     //public AudioClip letterSound;
     public Text textBox;
+    public bool loadLevelWhenDone = false;
+    public string levelToLoad = "Main";
 
     void OnEnable()
     {
@@ -21,6 +24,17 @@ public class TypeWriter : MonoBehaviour
     void OnDisable()
     {
         textBox.text = "";
+    }
+
+    void Update()
+    {
+        if (loadLevelWhenDone)
+        {
+            if (Input.GetButtonDown("Submit"))
+            {
+                SceneManager.LoadScene(levelToLoad);
+            }
+        }
     }
 
     IEnumerator TypeText()
@@ -49,6 +63,11 @@ public class TypeWriter : MonoBehaviour
                 yield return new WaitForSeconds(letterPause);
             }
             textBox.text += Environment.NewLine;
+        }
+        if (loadLevelWhenDone)
+        {
+            yield return new WaitForSeconds(3.5f);
+            SceneManager.LoadScene(levelToLoad);
         }
     }
 }
