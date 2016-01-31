@@ -54,6 +54,7 @@ public class MusicController : MonoBehaviour
 
     public void PlaySong(MusicType type)
     {
+        audioSource.Stop();
         switch (type)
         {
             default:

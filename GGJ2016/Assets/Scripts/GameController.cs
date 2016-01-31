@@ -336,7 +336,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator EndDay()
     {
-        MusicController.controller.PlaySong(MusicType.Title);
+        //MusicController.controller.PlaySong(MusicType.Title);
 
         TotalWaterLevel = CurrentWaterLevel;
         GrandTotalWaterCollected = CurrentWaterLevel;
