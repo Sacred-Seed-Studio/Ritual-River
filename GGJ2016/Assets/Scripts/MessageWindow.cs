@@ -30,6 +30,8 @@ public class MessageWindow : MonoBehaviour
 
     public void ShowMessage(PedestalType[] symbols, string day, string population, string collectedWater, string button)
     {
+        extraText.text = "";
+
         symbolImage1.gameObject.SetActive(true);
         symbolImage2.gameObject.SetActive(true);
         symbolImage3.gameObject.SetActive(true);

@@ -155,7 +155,8 @@ public class GameController : MonoBehaviour
     {
         Day += 1;
         torchesVisible = true;
-        
+        doneCollectingWater = false;
+
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
     }
@@ -248,6 +249,7 @@ public class GameController : MonoBehaviour
     public IEnumerator EndDay()
     {
         TotalWaterLevel = CurrentWaterLevel;
+        currentWaterLevel = 0;
 
         yield return StartCoroutine(ShowMessage("Good night.", "Next Day")); ;
 
