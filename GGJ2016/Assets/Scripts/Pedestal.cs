@@ -21,6 +21,7 @@ public class Pedestal : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (!GameController.controller.torchesVisible) return;
         Debug.Log("Touching pedestal ");
         Activate();
     }

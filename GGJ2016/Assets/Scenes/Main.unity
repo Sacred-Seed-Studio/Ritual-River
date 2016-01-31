@@ -168,6 +168,12 @@ MonoBehaviour:
 GameObject:
   m_PrefabParentObject: {fileID: 179712, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
   m_PrefabInternal: {fileID: 1514594229}
+--- !u!114 &188145146 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11499436, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045,
+    type: 2}
+  m_PrefabInternal: {fileID: 1514594229}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &213857910
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +262,7 @@ MonoBehaviour:
   messageWindow: {fileID: 305323851}
   doneCollectingWater: 0
   openGate: 0
+  loseWater: 0
   player: {fileID: 0}
   pedestals:
   - {fileID: 1938389347}
@@ -268,7 +275,9 @@ MonoBehaviour:
   - {fileID: 2147268202}
   correctPedestalsTouched: 0
   timeText: {fileID: 1514594230}
+  dayText: {fileID: 188145146}
   torchWaterPanel: {fileID: 142048888}
+  torchesVisible: 1
 --- !u!4 &280828232
 Transform:
   m_ObjectHideFlags: 0
@@ -969,7 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 514e35751666e55439ca0eb7e947b483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 6
   anim: {fileID: 0}
 --- !u!61 &471461510
 BoxCollider2D:
@@ -1515,6 +1524,21 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 305323848}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!1 &1188038552 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 117518, guid: bfb793f0188056c48acba16665757a8b, type: 2}
+  m_PrefabInternal: {fileID: 305323848}
+--- !u!114 &1188038557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1188038552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25c272ae00f6c9498872d68a682953b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1338684490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,6 +1891,51 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 36.600006
       objectReference: {fileID: 0}
+    - target: {fileID: 194202, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22424900, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22424900, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11438846, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b196c43bfacc6ec469e36ecf02f7846c,
+        type: 3}
+    - target: {fileID: 11438846, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_Color.a
+      value: 0.159
+      objectReference: {fileID: 0}
+    - target: {fileID: 11456022, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499436, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_Text
+      value: Day 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11476580, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
+      propertyPath: m_Text
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
   m_IsPrefabParent: 0
@@ -2028,6 +2097,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1654687486}
   - 212: {fileID: 1654687485}
+  - 58: {fileID: 1654687487}
+  - 114: {fileID: 1654687488}
   m_Layer: 0
   m_Name: River
   m_TagString: Untagged
@@ -2077,6 +2148,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!58 &1654687487
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1654687484}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: -0.73}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!114 &1654687488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1654687484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09420c524fe56554e81a9c19053dc407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1667092410
 GameObject:
   m_ObjectHideFlags: 0

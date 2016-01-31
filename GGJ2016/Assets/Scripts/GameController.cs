@@ -40,9 +40,20 @@ public class GameController : MonoBehaviour
     public int TotalWaterLevel  //total water in your town bucket
     { get { return totalWaterLevel; } set { totalWaterLevel += value; } }
     public int CollectedWaterLevel  //current collected water for the day
-    { get { return collectedWaterLevel; } set { collectedWaterLevel += value; } }
+    {
+        get { return collectedWaterLevel; }
+        set
+        {
+            collectedWaterLevel += value;
+            if (CollectedWaterLevel > BucketSize) CollectedWaterLevel = BucketSize;
+            else if (CollectedWaterLevel < 0) CollectedWaterLevel = 0;
+        }
+    }
 
-    public int BucketSize { get; set; }
+    private int bucketSize = 10;
+    public int BucketSize
+    { get { return bucketSize; } set { bucketSize += value; } }
+
     public string BucketName { get; set; }
     public float Speed { get; set; }
     public float AverageSpeed { get; set; }
@@ -57,6 +68,7 @@ public class GameController : MonoBehaviour
     private float timeForCollecingWater = 120f; //120 seconds for collecting the water mini game
 
     public bool openGate = false;
+    public bool loseWater;
 
     [HideInInspector]
     public Player player;
@@ -67,10 +79,13 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public int correctPedestalsTouched;
 
-    public Text timeText;
+    public Text timeText, dayText;
 
     public GameObject torchWaterPanel;
-    bool torchesVisible = true;
+    Slider waterSlider;
+    GameObject torchPanel;
+
+    public bool torchesVisible = true;
 
     //Mini game parameters
     void Awake()
@@ -90,6 +105,9 @@ public class GameController : MonoBehaviour
         TotalWaterLevel = STARTING_WATER_LEVEL;
         Population = STARTING_POPULATION;
 
+        waterSlider = torchWaterPanel.GetComponentInChildren<Slider>();
+        waterSlider.gameObject.SetActive(false);
+        torchPanel = torchWaterPanel.GetComponentInChildren<HorizontalLayoutGroup>().gameObject;
         StartCoroutine(StartGame());
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -99,7 +117,13 @@ public class GameController : MonoBehaviour
     {
         if (TotalWaterLevel < 0) gameOver = true;
         if (correctPedestalsTouched >= 3) openGate = true;
-        UpdateUITorches();
+        UpdateUITorchesWaterLevel();
+
+        if (loseWater)
+        {
+            loseWater = false;
+            LoseWater();
+        }
     }
 
     public IEnumerator StartGame()
@@ -148,6 +172,8 @@ public class GameController : MonoBehaviour
 
     public IEnumerator StartDay()
     {
+        dayText.text = "Day " + Day;
+        waterSlider.maxValue = BucketSize;
         RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
         yield return StartCoroutine(ShowMessage(pedestalsNeeded));
@@ -254,15 +280,35 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void UpdateUITorches()
+    public void UpdateUITorchesWaterLevel()
     {
-        foreach (Pedestal_UI pU in torchWaterPanel.GetComponentsInChildren<Pedestal_UI>())
+        if (torchesVisible) //show the torches that are lit so far
         {
-            pU.TurnOff();
+            waterSlider.gameObject.SetActive(false);
+            torchPanel.SetActive(true);
+            foreach (Pedestal_UI pU in torchPanel.GetComponentsInChildren<Pedestal_UI>())
+            {
+                pU.TurnOff();
+            }
+            for (int i = 0; i < correctPedestalsTouched; i++)
+            {
+                torchWaterPanel.GetComponentsInChildren<Pedestal_UI>()[i].TurnOn();
+            }
         }
-        for (int i = 0; i < correctPedestalsTouched; i++)
+        else //show the current water level
         {
-            torchWaterPanel.GetComponentsInChildren<Pedestal_UI>()[i].TurnOn();
+            torchPanel.SetActive(false);
+            waterSlider.gameObject.SetActive(true);
+
+            waterSlider.value = CurrentWaterLevel;
         }
+    }
+
+    public void LoseWater(float percentage = 0.25f)
+    {
+        Debug.Log(currentWaterLevel);
+        currentWaterLevel -= (int)Mathf.Ceil(bucketSize * percentage);
+        if (currentWaterLevel < 0) currentWaterLevel = 0;
+        Debug.Log(currentWaterLevel + " ...");
     }
 }
