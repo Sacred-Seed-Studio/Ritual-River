@@ -25,9 +25,24 @@ public class TypeWriter : MonoBehaviour
 
     IEnumerator TypeText()
     {
+        bool newLineEntered = false;
         string[] lines = textToDisplay.Split(Environment.NewLine.ToCharArray());
         foreach (string line in lines)
         {
+            if (line == "")
+            {
+                if (!newLineEntered)
+                {
+                    textBox.text += Environment.NewLine;
+                    newLineEntered = true;
+                }
+                else
+                {
+                    newLineEntered = false;
+                }
+                continue;
+            }
+
             foreach (char letter in line.ToCharArray())
             {
                 textBox.text += letter;
