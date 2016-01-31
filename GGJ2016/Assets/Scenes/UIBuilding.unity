@@ -541,8 +541,8 @@ RectTransform:
   - {fileID: 1475668240}
   m_Father: {fileID: 733681484}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: -0.1, y: -0.1}
+  m_AnchorMax: {x: 1.1, y: 1.1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -557,11 +557,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5df4ca221a382449e0d92b41c4cd9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textToDisplay: brave adventurer,this village is in dire need of our holy river water.
-    please accept the ritual of collecting it daily for my people. they are your people
-    now too. if you let them dehydrate you will be banished.good luck, and god speed
-    ?
-  letterPause: 0.2
+  textToDisplay: brave adventurer,  this village is in dire need of our holy river
+    water.   accept the ritual of praying at our shrines and only then willl the way
+    be opened.  look after our people. they are your people now too. if you let them
+    dehydrate we will banish you.   good luck, and god speed  - the mighty and powerful
+  letterPause: 0.05
   textBox: {fileID: 1475668241}
 --- !u!114 &751007858
 MonoBehaviour:
@@ -712,8 +712,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 751007856}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.1, y: 0.1}
-  m_AnchorMax: {x: 0.9, y: 0.9}
+  m_AnchorMin: {x: 0.15, y: 0.15}
+  m_AnchorMax: {x: 0.85, y: 0.85}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -744,20 +744,15 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 0
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'brave adventurer,
-
-
-    this village is in dire need of our holy river water. please accept the ritual
-    of collecting it daily for my people. they are your people now too. if you let
-    them dehydrate you will be banished.
-
-
-    good luck, and god speed'
+  m_Text: "brave adventurer,\r\n\nthis village is in dire need of our holy river water.\n\r\naccept
+    the ritual of praying at our shrines and only then willl the way be opened.\r\n\nlook
+    after our people. they are your people now too. if you let them dehydrate we will
+    banish you.\n\ngood luck, and god speed\r\n\n- the mighty and powerful gods"
 --- !u!222 &1475668242
 CanvasRenderer:
   m_ObjectHideFlags: 0
