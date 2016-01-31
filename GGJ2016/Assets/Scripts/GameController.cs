@@ -157,6 +157,7 @@ public class GameController : MonoBehaviour
         torchesVisible = true;
         doneCollectingWater = false;
 
+        TouchedWrongPedestal();
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
     }
@@ -329,7 +330,6 @@ public class GameController : MonoBehaviour
                 {
                     typesUsed.Add(pt);
                     p.ChangeType(pt, GetPedestalSprite(pt), GetPedestalColor(pt));
-                    //p.pType = pt;
                 }
             }
         }

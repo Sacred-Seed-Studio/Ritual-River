@@ -11,12 +11,13 @@ public class Gate : MonoBehaviour
 
     Vector2 p;
 
+    bool opened = false;
+
     void OnTriggerStay2D(Collider2D other)
     {
-        if (GameController.controller.openGate)
+        if (!opened && GameController.controller.openGate)
         {
-            GameController.controller.openGate = false;
-            GameController.controller.correctPedestalsTouched = 0;
+            opened = true;
             StartCoroutine(OpenGates());
         }
     }
