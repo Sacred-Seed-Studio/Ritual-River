@@ -662,7 +662,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.5
+  orthographic size: 7.34
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1042,8 +1042,8 @@ MonoBehaviour:
   titleMusic: {fileID: 8300000, guid: 6838930d92d684648bf279e62da10d8c, type: 3}
   backgroundMusicDown: {fileID: 8300000, guid: 97a759b62c3e8d146977a7f5d949f94c, type: 3}
   backgroundMusicUp: {fileID: 8300000, guid: 875b169270e734b43a41f137310985ae, type: 3}
-  gettingWaterMusic: {fileID: 0}
-  loseWaterMusic: {fileID: 0}
+  gettingWaterMusic: {fileID: 8300000, guid: 67db1af8cfca96e4d97bdfe0e7406fd7, type: 3}
+  loseWaterMusic: {fileID: 8300000, guid: dee6d110c583b654b95a39cd5dba7a9d, type: 3}
 --- !u!4 &952835943
 Transform:
   m_ObjectHideFlags: 0
@@ -1118,7 +1118,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

@@ -5,7 +5,9 @@ public enum MusicType
 {
     Title, 
     WayDown,
-    WayUp
+    WayUp,
+    GetWater,
+    LoseWater
 }
 public class MusicController : MonoBehaviour
 {
@@ -69,5 +71,21 @@ public class MusicController : MonoBehaviour
                 break;
         }
         audioSource.Play();
+    }
+
+    public void PlaySound(MusicType type)
+    {
+        //AudioClip a = audioSource.clip;
+        //audioSource.Stop();
+
+        switch (type)
+        {
+            default:
+            case MusicType.GetWater:
+                audioSource.PlayOneShot(gettingWaterMusic); break;
+            case MusicType.LoseWater:
+                audioSource.PlayOneShot(loseWaterMusic); break;
+        }
+        //audioSource
     }
 }

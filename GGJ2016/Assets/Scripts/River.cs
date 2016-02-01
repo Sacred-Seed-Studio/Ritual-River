@@ -18,6 +18,7 @@ public class River : MonoBehaviour
     {
         GameController.controller.player.allowedToMove = false;
         int count = 0;
+        MusicController.controller.PlaySound(MusicType.GetWater);
         while (count < GameController.controller.BucketSize)
         {
             GameController.controller.CurrentWaterLevel = 1;

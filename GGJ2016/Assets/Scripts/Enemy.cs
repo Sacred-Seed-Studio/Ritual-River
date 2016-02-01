@@ -139,5 +139,6 @@ public class Enemy : MonoBehaviour
         if (other.tag != "Player") return;
 
         GameController.controller.LoseWater();
+        MusicController.controller.PlaySound(MusicType.LoseWater);
     }
 }

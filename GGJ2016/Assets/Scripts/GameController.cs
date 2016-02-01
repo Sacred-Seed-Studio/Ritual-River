@@ -184,7 +184,7 @@ public class GameController : MonoBehaviour
     //    }
 
     //    if (usedObstacleSpawnLocations == null) usedObstacleSpawnLocations = new List<int>();
-    //    for (int i = 0; i < obstacleCount; i++)
+    //    for (int i = usedObstacleSpawnLocations.Count; i < obstacleCount; i++)
     //    {
     //        int spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
     //        while (usedObstacleSpawnLocations.Contains(spawnLocationIndex))
@@ -304,7 +304,6 @@ public class GameController : MonoBehaviour
     public IEnumerator StartDay()
     {
         Debug.Log("Start Day start");
-        MusicController.controller.PlaySong(MusicType.WayDown);
 
         dayText.text = "Day " + Day;
         waterSlider.maxValue = BucketSize;
@@ -317,6 +316,7 @@ public class GameController : MonoBehaviour
         pedestalsNeeded = GetRandomPedestals();
         Debug.Log("Start Day end");
         yield return StartCoroutine(ShowMessage(pedestalsNeeded));
+        MusicController.controller.PlaySong(MusicType.WayDown);
 
         yield return null;
     }
