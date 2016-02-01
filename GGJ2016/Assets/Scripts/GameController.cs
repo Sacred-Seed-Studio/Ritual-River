@@ -131,11 +131,13 @@ public class GameController : MonoBehaviour
         waterSlider.gameObject.SetActive(false);
         torchPanel = torchWaterPanel.GetComponentInChildren<HorizontalLayoutGroup>().gameObject;
 
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
         gate = GameObject.FindGameObjectWithTag("Gate").GetComponent<Gate>();
 
         monkeys = new List<Enemy>();
-        //obstacles = new List<Obstacle>();
+        obstacles = new List<Obstacle>();
 
         GameObject monkeyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
         for (int i = 0; i < spawnLocations.Length; i++)
@@ -146,18 +148,20 @@ public class GameController : MonoBehaviour
             //monkeys[i].transform.SetParent(transform);
         }
 
-        //obstacleSprites = Resources.LoadAll<Sprite>("Sprites/Obstacles");
+        obstacleSprites = Resources.LoadAll<Sprite>("Sprites/Obstacles");
 
-        //GameObject obstaclePrefab = Resources.Load<GameObject>("Prefabs/Obstacle");
-        //for (int i = 0; i < obstacleSpawnLocations.Length; i++)
-        //{
-        //    obstacles.Add((Instantiate(obstaclePrefab, obstacleSpawnLocations[i].position, Quaternion.identity) as GameObject).GetComponent<Obstacle>());
-        //    obstacles[i].gameObject.SetActive(false);
-        //    obstacles[i].gameObject.name = "Obstacle" + i;
-        //}
+        GameObject obstaclePrefab = Resources.Load<GameObject>("Prefabs/Obstacle");
+        for (int i = 0; i < obstacleSpawnLocations.Length; i++)
+        {
+            obstacles.Add((Instantiate(obstaclePrefab, obstacleSpawnLocations[i].position, Quaternion.identity) as GameObject).GetComponent<Obstacle>());
+            obstacles[i].gameObject.SetActive(false);
+            obstacles[i].gameObject.name = "Obstacle" + i;
+        }
 
         SpawnMonkeys();
+        SpawnObstacles();
     }
+
 
     void SpawnMonkeys()
     {
@@ -176,31 +180,28 @@ public class GameController : MonoBehaviour
         }
     }
 
-    //void SpawnObstacles()
-    //{
-    //    foreach (Obstacle o in obstacles)
-    //    {
-    //        o.gameObject.SetActive(false);
-    //    }
-
-    //    if (usedObstacleSpawnLocations == null) usedObstacleSpawnLocations = new List<int>();
-    //    for (int i = usedObstacleSpawnLocations.Count; i < obstacleCount; i++)
-    //    {
-    //        int spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
-    //        while (usedObstacleSpawnLocations.Contains(spawnLocationIndex))
-    //        {
-    //            spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
-    //        }
-    //        usedObstacleSpawnLocations.Add(spawnLocationIndex);
-    //        obstacleSpawnLocations[spawnLocationIndex].position = new Vector2(Random.Range(lowObstacleBound, highObstacleBound), obstacleSpawnLocations[spawnLocationIndex].position.y);
-    //        obstacles[spawnLocationIndex].gameObject.SetActive(true);
-    //        obstacles[spawnLocationIndex].Randomize(obstacleSprites[Random.Range(0, obstacleSprites.Length)]);
-    //        obstacles[spawnLocationIndex].transform.position = obstacleSpawnLocations[spawnLocationIndex].position;
-    //    }
-    //}
+    void SpawnObstacles()
+    {
+        if (usedObstacleSpawnLocations == null) usedObstacleSpawnLocations = new List<int>();
+        for (int i = usedObstacleSpawnLocations.Count; i < obstacleCount; i++)
+        {
+            int spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
+            while (usedObstacleSpawnLocations.Contains(spawnLocationIndex))
+            {
+                spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
+            }
+            usedObstacleSpawnLocations.Add(spawnLocationIndex);
+            obstacleSpawnLocations[spawnLocationIndex].position = new Vector2(Random.Range(lowObstacleBound, highObstacleBound), obstacleSpawnLocations[spawnLocationIndex].position.y);
+            obstacles[spawnLocationIndex].gameObject.SetActive(true);
+            obstacles[spawnLocationIndex].Randomize(obstacleSprites[Random.Range(0, obstacleSprites.Length)]);
+            obstacles[spawnLocationIndex].transform.position = obstacleSpawnLocations[spawnLocationIndex].position;
+        }
+    }
 
     void Start()
     {
+        player.movement.anim.SetFloat("y", -1);
+
         StartCoroutine(StartGame());
     }
 
@@ -244,8 +245,9 @@ public class GameController : MonoBehaviour
         doneCollectingWater = false;
         monkeyCount++;
         if (monkeyCount >= monkeys.Count) monkeyCount = monkeys.Count - 1;
-        //obstacleCount++;
-        if (monkeyCount > 11) monkeyCount = 11;
+        obstacleCount++;
+        if (obstacleCount >= obstacles.Count) obstacleCount = obstacles.Count - 1;
+        //if (monkeyCount > 11) monkeyCount = 11;
         gate.ResetGates();
 
         correctPedestalsTouched = 0;
@@ -253,6 +255,10 @@ public class GameController : MonoBehaviour
         TouchedWrongPedestal();
         TotalWaterLevel = -Population;
         if (TotalWaterLevel < 0) gameOver = true;
+
+        player.transform.position = Vector2.zero;
+        player.movement.anim.SetFloat("x", 0);
+        player.movement.anim.SetFloat("y", -1);
         Debug.Log("Increment Day end");
 
 
@@ -464,11 +470,11 @@ public class GameController : MonoBehaviour
         StartCoroutine(Knockback());
     }
 
-    IEnumerator LoseWaterLevel(float percentage = 0.25f)
+    IEnumerator LoseWaterLevel(float amount = 2f)
     {
         int count = 0;
 
-        while (count < (int)Mathf.Ceil(bucketSize * percentage))
+        while (count < amount)
         {
             Debug.Log(currentWaterLevel);
             currentWaterLevel -= 1;
