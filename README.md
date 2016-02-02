@@ -1,5 +1,5 @@
 # Ritual River
-A game made Global Game Jam 2016.  
+A game made for Global Game Jam 2016.  
 Theme: Ritual
 
 ## Post Mortem
