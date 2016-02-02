@@ -35,22 +35,22 @@ public class Enemy : MonoBehaviour
           speedySpeed = 2f,
           consistentSpeed = 1f,
           randomSpeed = 1f;
+    float lazyBoost = 0.5f,
+      speedyBoost = 3f,
+      consistentBoost = 1.5f,
+      randomBoost = 1f;
 
     public float baseSpeed = 1f;
+
+    public float waterToSteal = 2f;
+
+    bool playerInRange;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
         movement = GetComponent<EnemyMovement>();
         Randomize();
-        //switch (personality)
-        //{
-        //    case Personality.Lazy: movement.speed = lazySpeed*baseSpeed; break;
-        //    case Personality.Speedy: movement.speed = speedySpeed*baseSpeed; break;
-        //    case Personality.Consistent: movement.speed = consistentSpeed*baseSpeed; break;
-        //    case Personality.Random: movement.speed = randomSpeed*baseSpeed; break;
-        //    default: Debug.Log("Unknown personality"); break;
-        //}
     }
 
     void Update()
@@ -81,22 +81,74 @@ public class Enemy : MonoBehaviour
                 Debug.Log("Unknown enemy state! ARG!");
                 break;
         }
+
+        WatchForPlayer();
+
     }
 
     void FixedUpdate()
     {
-        if (Mathf.Abs(movementVector.x) != 0 || Mathf.Abs(movementVector.y) != 0) movement.Move(movementVector);
+        if (!playerInRange)
+        {
+            movement.Move(movementVector);
+        }
+        else
+        {
+            movement.Charge(movementVector);
+        }
+    }
+
+    public float rayLength = 3.5f;
+    void WatchForPlayer()
+    {
+
+        Vector2 dir = Vector2.right;
+        if (direction == -1) //left
+        {
+            dir = Vector2.left;
+        }
+        else //direction is right
+        {
+            dir = Vector2.right;
+        }
+        Debug.DrawRay(transform.position, dir * rayLength, Color.black);
+        Physics2D.queriesStartInColliders = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir * rayLength);
+        if (hit.collider != null && hit.collider.gameObject.tag == "Player")
+        {
+            ChargeToPlayer();
+            playerInRange = true;
+        }
+        else
+        {
+            playerInRange = false;
+        }
+        RaycastHit2D backHit = Physics2D.Raycast(transform.position, -dir);
+        if (backHit.collider != null && backHit.collider.gameObject.tag == "Player")
+        {
+            direction *= -1;
+        }
+    }
+
+    public void ChargeToPlayer()
+    {
+        Debug.Log("Charging to player!");
     }
 
     public void Randomize()
     {
         personality = (Personality)Random.Range(0, 4);
+        SetSpeed();
+    }
+
+    public void SetSpeed()
+    {
         switch (personality)
         {
-            case Personality.Lazy: movement.speed = lazySpeed * baseSpeed; break;
-            case Personality.Speedy: movement.speed = speedySpeed * baseSpeed; break;
-            case Personality.Consistent: movement.speed = consistentSpeed * baseSpeed; break;
-            case Personality.Random: movement.speed = randomSpeed * baseSpeed; break;
+            case Personality.Lazy: movement.speed = lazySpeed * baseSpeed; movement.chargeBoost = lazyBoost; break;
+            case Personality.Speedy: movement.speed = speedySpeed * baseSpeed; movement.chargeBoost = speedyBoost; break;
+            case Personality.Consistent: movement.speed = consistentSpeed * baseSpeed; movement.chargeBoost = consistentBoost; break;
+            case Personality.Random: movement.speed = randomSpeed * baseSpeed; movement.chargeBoost = randomBoost; break;
             default: Debug.Log("Unknown personality"); break;
         }
     }
@@ -108,37 +160,14 @@ public class Enemy : MonoBehaviour
 
     void SetMovementVector()
     {
-        switch (personality)
-        {
-            case Personality.Lazy:
-                movementVector = new Vector3(direction, 0, 0);
-                break;
-            case Personality.Speedy:
-                movementVector = new Vector3(direction, 0, 0);
-                break;
-            case Personality.Consistent:
-                movementVector = new Vector3(direction, 0, 0);
-                break;
-            case Personality.Random:
-                if (Random.value > Random.value)
-                {
-                    if (Random.value > 0.99) { direction *= -1; }
-                    if (Random.value > 0.95) { movement.speed = Random.value * 2.5f; }
-                    movementVector = new Vector3(direction, 0, 0);
-                }
-                break;
-            default:
-                Debug.Log("Unknown personality, freak out!");
-                movementVector = Vector3.zero;
-                break;
-        }
+        movementVector = new Vector3(direction, 0, 0);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag != "Player") return;
 
-        GameController.controller.LoseWater();
+        GameController.controller.LoseWater(waterToSteal);
         MusicController.controller.PlaySound(MusicType.LoseWater);
     }
 }

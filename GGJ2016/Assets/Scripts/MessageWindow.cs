@@ -14,6 +14,8 @@ public class MessageWindow : MonoBehaviour
 
     public Image symbolImage1, symbolImage2, symbolImage3;
 
+    public GameObject pedestals;
+
     public void ShowMessage(string extra, string day, string population, string collectedWater, string button)
     {
         extraText.text = extra;
@@ -22,13 +24,13 @@ public class MessageWindow : MonoBehaviour
         collectedWaterText.text = collectedWater;
         buttonText.text = button;
 
-        Debug.Log("Showing text message");
         symbolImage1.gameObject.SetActive(false);
         symbolImage2.gameObject.SetActive(false);
         symbolImage3.gameObject.SetActive(false);
+        pedestals.gameObject.SetActive(false);
     }
 
-    public void ShowMessage(PedestalType[] symbols, string day, string population, string collectedWater, string button)
+    public void ShowMessage(PedestalType[] symbols, string button)
     {
         extraText.text = "";
 
@@ -44,9 +46,12 @@ public class MessageWindow : MonoBehaviour
         symbolImage2.color = GameController.controller.GetPedestalColor(symbols[1]);
         symbolImage3.color = GameController.controller.GetPedestalColor(symbols[2]);
 
-        dayText.text = day;
-        populationText.text = population;
-        collectedWaterText.text = collectedWater;
+        extraText.text = "pray to the gods";
+        dayText.text = "";
+        populationText.text = "";
+        collectedWaterText.text = "";
         buttonText.text = button;
+
+        pedestals.gameObject.SetActive(true);
     }
 }

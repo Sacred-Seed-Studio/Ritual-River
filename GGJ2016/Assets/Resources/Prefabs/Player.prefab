@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 408548}
   - 212: {fileID: 21234664}
   - 95: {fileID: 9593110}
+  - 114: {fileID: 11419892}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -29,8 +30,7 @@ GameObject:
   - 50: {fileID: 5030960}
   - 114: {fileID: 11432760}
   - 114: {fileID: 11461150}
-  - 61: {fileID: 6175952}
-  - 114: {fileID: 11458128}
+  - 58: {fileID: 5831160}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -46,7 +46,7 @@ Transform:
   m_GameObject: {fileID: 131128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 415046}
   m_RootOrder: 0
@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 158472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 408548}
   m_Father: {fileID: 0}
@@ -80,8 +80,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &6175952
-BoxCollider2D:
+--- !u!58 &5831160
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -91,9 +91,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0.00023243576, y: 0.0034766197}
+  m_Offset: {x: 0, y: -0.46}
   serializedVersion: 2
-  m_Size: {x: 0.39050585, y: 1.0138447}
+  m_Radius: 0.25
 --- !u!95 &9593110
 Animator:
   serializedVersion: 3
@@ -111,6 +111,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11419892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 746109828f813214b8dda95415c22dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11432760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -125,17 +136,6 @@ MonoBehaviour:
   speed: 6
   rb2d: {fileID: 0}
   anim: {fileID: 0}
---- !u!114 &11458128
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 158472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 746109828f813214b8dda95415c22dfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11461150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -180,7 +180,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!212 &21234664

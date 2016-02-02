@@ -191,7 +191,7 @@ public class GameController : MonoBehaviour
                 spawnLocationIndex = Random.Range(0, obstacleSpawnLocations.Length);
             }
             usedObstacleSpawnLocations.Add(spawnLocationIndex);
-            obstacleSpawnLocations[spawnLocationIndex].position = new Vector2(Random.Range(lowObstacleBound, highObstacleBound), obstacleSpawnLocations[spawnLocationIndex].position.y);
+            obstacleSpawnLocations[spawnLocationIndex].position = obstacleSpawnLocations[spawnLocationIndex].position;
             obstacles[spawnLocationIndex].gameObject.SetActive(true);
             obstacles[spawnLocationIndex].Randomize(obstacleSprites[Random.Range(0, obstacleSprites.Length)]);
             obstacles[spawnLocationIndex].transform.position = obstacleSpawnLocations[spawnLocationIndex].position;
@@ -214,7 +214,7 @@ public class GameController : MonoBehaviour
         if (loseWater)
         {
             loseWater = false;
-            LoseWater();
+            LoseWater(2);
         }
 
         if (waitingForInput && Input.GetButtonDown("Submit"))
@@ -238,14 +238,13 @@ public class GameController : MonoBehaviour
 
     void IncrementDay()
     {
-        Debug.Log("Increment Day start");
         Day += 1;
         Population += 1;
         torchesVisible = true;
         doneCollectingWater = false;
         monkeyCount++;
         if (monkeyCount >= monkeys.Count) monkeyCount = monkeys.Count - 1;
-        obstacleCount++;
+        obstacleCount += 2;
         if (obstacleCount >= obstacles.Count) obstacleCount = obstacles.Count - 1;
         //if (monkeyCount > 11) monkeyCount = 11;
         gate.ResetGates();
@@ -259,14 +258,12 @@ public class GameController : MonoBehaviour
         player.transform.position = Vector2.zero;
         player.movement.anim.SetFloat("x", 0);
         player.movement.anim.SetFloat("y", -1);
-        Debug.Log("Increment Day end");
 
 
     }
 
     public IEnumerator ShowMessage(string message, string message2 = "Start Day")
     {
-        Debug.Log("ShowMessage Start");
         waitingForInput = true;
         messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(),
             "New Total Water: " + TotalWaterLevel.ToString(), message2);
@@ -283,7 +280,6 @@ public class GameController : MonoBehaviour
         shutOffMessage = false;
         messageWindow.gameObject.SetActive(false);
         waitingForInput = false;
-        Debug.Log("ShowMessage end");
 
         yield return null;
     }
@@ -291,7 +287,7 @@ public class GameController : MonoBehaviour
     public IEnumerator ShowMessage(PedestalType[] symbols, string message2 = "Start Day")
     {
         waitingForInput = true;
-        messageWindow.ShowMessage(symbols, "Day: " + Day.ToString(), "Population: " + Population.ToString(), "Total Water: " + TotalWaterLevel.ToString(), message2);
+        messageWindow.ShowMessage(symbols, message2);
         messageWindow.gameObject.SetActive(true);
         shutOffMessage = false;
 
@@ -309,18 +305,17 @@ public class GameController : MonoBehaviour
 
     public IEnumerator StartDay()
     {
-        Debug.Log("Start Day start");
-
         dayText.text = "Day " + Day;
         waterSlider.maxValue = BucketSize;
 
         SpawnMonkeys();
-        //SpawnObstacles();
+        RandomizeMonkeyPersonalities();
+        SpawnObstacles();
 
         SetMonkeysToMode(EnemyState.Chillin);
         RandomizePedestals();
         pedestalsNeeded = GetRandomPedestals();
-        Debug.Log("Start Day end");
+        yield return StartCoroutine(ShowMessage("Good Morning", "Next"));
         yield return StartCoroutine(ShowMessage(pedestalsNeeded));
         MusicController.controller.PlaySong(MusicType.WayDown);
 
@@ -337,7 +332,6 @@ public class GameController : MonoBehaviour
         {
             timeText.text = (timeForCollecingWater - currentTime).ToString();
             if (doneCollectingWater) delay = 0f;
-            //Debug.Log("Collecting water...");
             currentTime += delay;
             yield return new WaitForSeconds(delay);
         }
@@ -350,12 +344,9 @@ public class GameController : MonoBehaviour
     public IEnumerator EndDay()
     {
         MusicController.controller.PlaySong(MusicType.Title);
-        Debug.Log("End day start");
         TotalWaterLevel = CurrentWaterLevel;
         GrandTotalWaterCollected = CurrentWaterLevel;
-        Debug.Log("Grand total water collected: " + GrandTotalWaterCollected);
         currentWaterLevel = 0;
-        Debug.Log("End day end");
 
         yield return StartCoroutine(ShowMessage("Good night", "Next Day")); ;
 
@@ -464,21 +455,19 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void LoseWater(float percentage = 0.25f)
+    public void LoseWater(float amount)
     {
-        StartCoroutine(LoseWaterLevel(percentage));
+        StartCoroutine(LoseWaterLevel(amount));
         StartCoroutine(Knockback());
     }
 
-    IEnumerator LoseWaterLevel(float amount = 2f)
+    IEnumerator LoseWaterLevel(float amount)
     {
         int count = 0;
 
         while (count < amount)
         {
-            Debug.Log(currentWaterLevel);
             currentWaterLevel -= 1;
-            Debug.Log(currentWaterLevel);
             if (currentWaterLevel < 0)
             {
                 currentWaterLevel = 0;
@@ -487,7 +476,7 @@ public class GameController : MonoBehaviour
             count++;
             yield return new WaitForSeconds(0.05f);
         }
-        GameController.controller.GrandTotalWaterLost += count;
+        if (count == (amount -1) )GameController.controller.GrandTotalWaterLost += count;
         yield return null;
     }
 
@@ -568,5 +557,12 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void RandomizeMonkeyPersonalities()
+    {
+        foreach (Enemy m in monkeys)
+        {
+            m.Randomize();
+        }
+    }
 }
 

@@ -35,7 +35,7 @@ public class MusicController : MonoBehaviour
 
     void OnLevelWasLoaded(int level)
     {
-        Debug.Log("Level loaded!  " + level);
+        //Debug.Log("Level loaded!  " + level);
 
         switch (level)
         {

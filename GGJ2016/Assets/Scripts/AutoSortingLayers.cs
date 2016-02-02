@@ -13,6 +13,7 @@ public class AutoSortingLayers : MonoBehaviour
 
     void Update()
     {
-        sr.sortingOrder = Mathf.Abs((int)Mathf.Ceil(transform.position.y));
+        if (tag == "Player") sr.sortingOrder = Mathf.Abs((int)Mathf.Ceil(transform.position.y * 10)) +10;
+        else sr.sortingOrder = Mathf.Abs((int)Mathf.Ceil(transform.position.y*10));
     }
 }

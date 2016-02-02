@@ -28,7 +28,6 @@ public class Pedestal : MonoBehaviour
     {
         if (other.tag != "Player" && other.tag != "PlayerStunned") return;
         if (!GameController.controller.torchesVisible) return;
-        Debug.Log("Touching pedestal ");
         Activate();
     }
 
@@ -67,7 +66,6 @@ public class Pedestal : MonoBehaviour
 
     public void ChangeType(PedestalType p, Sprite s, Color c)
     {
-        Debug.Log("Changing type");
         pType = p;
         symbolSR.sprite = s;
         symbolSR.color = c;
