@@ -244,6 +244,8 @@ public class GameController : MonoBehaviour
         doneCollectingWater = false;
         monkeyCount++;
         if (monkeyCount >= monkeys.Count) monkeyCount = monkeys.Count - 1;
+
+        SpeedUpMonkeys();
         obstacleCount += 2;
         if (obstacleCount >= obstacles.Count) obstacleCount = obstacles.Count - 1;
         //if (monkeyCount > 11) monkeyCount = 11;
@@ -259,14 +261,23 @@ public class GameController : MonoBehaviour
         player.movement.anim.SetFloat("x", 0);
         player.movement.anim.SetFloat("y", -1);
 
+        timeForCollecingWater -= 5f;
+        if (timeForCollecingWater <= 25) timeForCollecingWater = 25f;
 
     }
 
-    public IEnumerator ShowMessage(string message, string message2 = "Start Day")
+    public IEnumerator ShowMessage(string message, string message2 = "Start Day", bool showBucket = false)
     {
         waitingForInput = true;
-        messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(),
-            "New Total Water: " + TotalWaterLevel.ToString(), message2);
+        if (!showBucket)
+        {
+            messageWindow.ShowMessage(message, "Day: " + Day.ToString(), "Population: " + Population.ToString(),
+                "New Total Water: " + TotalWaterLevel.ToString(), message2);
+        }
+        else
+        {
+            messageWindow.ShowMessage(message, "", "You earned a bigger bucket!", "", message2);
+        }
         messageWindow.gameObject.SetActive(true);
         shutOffMessage = false;
 
@@ -305,6 +316,8 @@ public class GameController : MonoBehaviour
 
     public IEnumerator StartDay()
     {
+        GameController.controller.player.movement.ChangeSpeed(false);
+
         dayText.text = "Day " + Day;
         waterSlider.maxValue = BucketSize;
 
@@ -344,11 +357,17 @@ public class GameController : MonoBehaviour
     public IEnumerator EndDay()
     {
         MusicController.controller.PlaySong(MusicType.Title);
+        if (CurrentWaterLevel == BucketSize)
+        {
+            Debug.Log("FULL BUCKET!");
+            yield return StartCoroutine(ShowMessage("Nice", "Next", true)); ;
+        }
         TotalWaterLevel = CurrentWaterLevel;
+        timeText.text = "";
         GrandTotalWaterCollected = CurrentWaterLevel;
         currentWaterLevel = 0;
-
         yield return StartCoroutine(ShowMessage("Good night", "Next Day")); ;
+
 
         yield return null;
     }
@@ -476,7 +495,8 @@ public class GameController : MonoBehaviour
             count++;
             yield return new WaitForSeconds(0.05f);
         }
-        if (count == (amount -1) )GameController.controller.GrandTotalWaterLost += count;
+        if (count == (amount - 1)) GameController.controller.GrandTotalWaterLost += count;
+        GameController.controller.player.movement.ChangeSpeedHalfWater(CurrentWaterLevel / BucketSize);
         yield return null;
     }
 

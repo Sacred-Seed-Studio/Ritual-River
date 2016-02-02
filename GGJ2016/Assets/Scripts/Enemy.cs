@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public float rayLength = 3.5f;
+    public float rayLength = 6f;
     void WatchForPlayer()
     {
 
@@ -113,31 +113,33 @@ public class Enemy : MonoBehaviour
         }
         Debug.DrawRay(transform.position, dir * rayLength, Color.black);
         Physics2D.queriesStartInColliders = false;
+        Physics2D.queriesHitTriggers = true;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir * rayLength);
         if (hit.collider != null && hit.collider.gameObject.tag == "Player")
         {
-            ChargeToPlayer();
             playerInRange = true;
         }
         else
         {
             playerInRange = false;
         }
-        RaycastHit2D backHit = Physics2D.Raycast(transform.position, -dir);
+        RaycastHit2D backHit = Physics2D.Raycast(transform.position, -dir*rayLength);
         if (backHit.collider != null && backHit.collider.gameObject.tag == "Player")
         {
             direction *= -1;
         }
     }
 
-    public void ChargeToPlayer()
-    {
-        Debug.Log("Charging to player!");
-    }
-
     public void Randomize()
     {
         personality = (Personality)Random.Range(0, 4);
+        switch(Random.Range(0, 8))
+        {
+            case 0: personality = Personality.Consistent; break;
+            case 1: personality = Personality.Lazy; break;
+            default:
+            case 2: personality = Personality.Speedy; break;
+        }
         SetSpeed();
     }
 
@@ -167,7 +169,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag != "Player") return;
 
-        GameController.controller.LoseWater(waterToSteal);
+        GameController.controller.LoseWater(waterToSteal+ (GameController.controller.Day/2f));
         MusicController.controller.PlaySound(MusicType.LoseWater);
     }
 }

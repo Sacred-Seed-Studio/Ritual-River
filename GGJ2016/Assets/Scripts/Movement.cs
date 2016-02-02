@@ -5,7 +5,8 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour
 {
-    public float speed = 1f;
+    float speed = 1f;
+    public float waterSpeed = 1f, normalSpeed = 1f;
 
     Vector3 cameraPosition;
     [HideInInspector]
@@ -23,6 +24,9 @@ public class Movement : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+
+        speed = normalSpeed;
+        waterSpeed = speed * 0.65f;
     }
 
     public void Move(Vector2 input)
@@ -41,5 +45,16 @@ public class Movement : MonoBehaviour
         p.y = Mathf.Clamp(p.y, lowPlayerBound, topPlayerBound);
         rb2d.MovePosition(p);
         Camera.main.transform.position = cameraPosition;
+    }
+
+    public void ChangeSpeed(bool carryWater = false)
+    {
+        if (carryWater) speed = waterSpeed;
+        else speed = normalSpeed;
+    }
+
+    public void ChangeSpeedHalfWater(float percetageFull)
+    {
+        speed = Mathf.Lerp(waterSpeed, normalSpeed, percetageFull);
     }
 }

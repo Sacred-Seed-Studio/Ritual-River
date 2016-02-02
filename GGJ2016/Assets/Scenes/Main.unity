@@ -2200,9 +2200,31 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11432760, guid: 820aba44f1a4c0d4eb359866b5511d63, type: 2}
+      propertyPath: normalSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 820aba44f1a4c0d4eb359866b5511d63, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &797644766 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 158472, guid: 820aba44f1a4c0d4eb359866b5511d63, type: 2}
+  m_PrefabInternal: {fileID: 797644765}
+--- !u!61 &797644767
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797644766}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -0.00390701, y: -0.0468843}
+  serializedVersion: 2
+  m_Size: {x: 0.33283836, y: 1.2001941}
 --- !u!1 &846890594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,23 +3084,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22424900, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.591
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22424900, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0.591
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0.591
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22431676, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 131022, guid: 7ad6504df9d7b2c46afbbd6d7c5c9045, type: 2}
       propertyPath: m_IsActive
