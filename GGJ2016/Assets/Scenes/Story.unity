@@ -168,6 +168,10 @@ Prefab:
       propertyPath: loadLevelWhenDone
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11408800, guid: 2f85a50b7de232046afd22648ead6b02, type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f85a50b7de232046afd22648ead6b02, type: 2}
   m_IsPrefabParent: 0
