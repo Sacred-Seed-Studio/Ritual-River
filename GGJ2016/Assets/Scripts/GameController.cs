@@ -108,6 +108,7 @@ public class GameController : MonoBehaviour
     public float lowObstacleBound = -4.5f;
     public float highObstacleBound = 4.5f;
 
+    public GameObject nightController;
     //obstacleSprites[Random.Range(0, obstacleSprites.Length)]
     //Mini game parameters
     void Awake()
@@ -230,7 +231,9 @@ public class GameController : MonoBehaviour
             yield return StartCoroutine(StartDay());
             yield return StartCoroutine(StartCollectingWater());
             yield return StartCoroutine(EndDay());
+            yield return StartCoroutine(nightController.GetComponent<NightFader>().FadeIn());
             IncrementDay();
+            yield return StartCoroutine(nightController.GetComponent<NightFader>().FadeOut());
         }
         yield return null;
         SceneManager.LoadScene("GameOver");
@@ -260,9 +263,6 @@ public class GameController : MonoBehaviour
         player.transform.position = Vector2.zero;
         player.movement.anim.SetFloat("x", 0);
         player.movement.anim.SetFloat("y", -1);
-
-        timeForCollecingWater -= 5f;
-        if (timeForCollecingWater <= 25) timeForCollecingWater = 25f;
 
     }
 

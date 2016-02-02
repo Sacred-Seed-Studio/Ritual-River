@@ -17,20 +17,23 @@ public class NightFader : MonoBehaviour
 
     void OnEnable()
     {
-        percentage = 0f;
-        cg.alpha = 0f;
-        StartCoroutine(Fade());
+        //StartCoroutine(Fade());
     }
 
-    IEnumerator Fade()
+    public IEnumerator FadeIn()
     {
+        percentage = 0f;
+        cg.alpha = 0f;
         while (cg.alpha != 1f)
         {
             cg.alpha = Mathf.Lerp(0f, 1f, percentage);
             percentage += increment;
             yield return new WaitForSeconds(delay);
         }
+    }
 
+    public IEnumerator FadeOut()
+    {
         percentage = 0f;
 
         while (cg.alpha != 0f)
@@ -39,6 +42,8 @@ public class NightFader : MonoBehaviour
             percentage += increment;
             yield return new WaitForSeconds(delay);
         }
+
+        gameObject.SetActive(false);
     }
 
 
